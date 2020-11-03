@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_DOMAIN,
@@ -9,6 +10,8 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
 };
+
 // 본인의 sdk를 갖고오면 된다.
 firebase.initializeApp(firebaseConfig);
 export const authService = firebase.auth();
+export const dbService = firebase.firestore();

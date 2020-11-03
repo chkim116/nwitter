@@ -9,14 +9,13 @@ import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import rootReducer from "./modules/rootReducer";
 import rootSaga from "./sagas/rootSaga";
-import fbase from "./fbase";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const logger = createLogger();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger));
 
-// sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <BrowserRouter>
