@@ -6,12 +6,9 @@ export const AuthForm = ({
   onSign,
   onSignInSubmit,
   onSignUpSubmit,
-  isLogin,
-  onLogout,
 }) => {
   return (
     <div>
-      {isLogin && <div onClick={onLogout}>onLogout</div>}
       <div>로고</div>
       {doSignUp ? <h2>가입</h2> : <h2>로그인</h2>}
       <form

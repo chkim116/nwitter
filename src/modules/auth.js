@@ -6,6 +6,8 @@ export const LOGOUT_REQUSET = "auth/LOGOUT_REQUSET";
 export const LOGOUT_SUCCESS = "auth/LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "auth/LOGOUT_FAILURE";
 
+export const GET_AUTH = "GET_AUTH";
+
 const initialState = {
   login: { email: "", password: "" },
   isLogin: false,
@@ -30,6 +32,11 @@ export const logOut = () => ({
   type: LOGOUT_REQUSET,
 });
 
+export const getAuth = (user) => ({
+  type: GET_AUTH,
+  payload: user,
+});
+
 function auth(state = initialState, action) {
   switch (action.type) {
     case LOGIN_SUBMIT_REQUSET:
@@ -37,7 +44,6 @@ function auth(state = initialState, action) {
         ...state,
         isLoading: true,
       };
-
     case LOGIN_SUBMIT_SUCCESS:
       return {
         ...state,
@@ -74,6 +80,18 @@ function auth(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      };
+
+    case GET_AUTH:
+      return {
+        ...state,
+        isLogin: true,
+        user: {
+          ...state.user,
+          email: action.payload.email,
+          id: action.payload.uid,
+          username: action.payload.email.split("@")[0],
+        },
       };
 
     default:
