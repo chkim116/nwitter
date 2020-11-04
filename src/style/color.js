@@ -1,7 +1,7 @@
 const color = {
   mainBlue: "#1DA1F2",
   lightenBlue: "#8ED0F9",
-  borderColor: "#778795",
+  borderColor: "#E5ECF2",
   lightenBgColor: "#F5F8FA",
   white: "#ffffff",
   black: "#14171A",

@@ -39,6 +39,8 @@ export const Main = () => {
         <div className='twit'>
           <TwittWritingForm />
           <TwittForm />
+          <TwittForm />
+          <TwittForm />
         </div>
       </MainBlock>
     </>

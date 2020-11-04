@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Button } from "style/button";
 import color from "style/color";
 import { Input } from "style/input";
+import faker from "faker/locale/ko";
 
 import { AiOutlineLike, AiOutlineEllipsis } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
@@ -11,14 +12,16 @@ import styled from "styled-components";
 const TwitFormBlock = styled.div`
   width: 100%;
   max-width: 560px;
-
+  background: ${color.lightenBgColor};
   .twit__form {
+    margin-top: 20px;
     background: ${color.white};
-    margin-top: 25px;
+    border: 1px solid ${color.borderColor};
     border-top: none;
     .twit__form-user {
       padding: 0.8em;
       display: flex;
+      align-items: center;
 
       & div {
         width: 30px;
@@ -28,6 +31,7 @@ const TwitFormBlock = styled.div`
 
         & img {
           width: 100%;
+          border-radius: 50%;
           height: 100%;
         }
       }
@@ -37,13 +41,13 @@ const TwitFormBlock = styled.div`
   .twit__form-img {
     max-width: 560px;
     width: 95%;
-    height: 300px;
+    height: auto;
     margin: 0 auto;
     margin-bottom: 1em;
     border-radius: 33px;
-    border: 1px solid ${color.borderColor};
     vertical-align: middle;
     & > img {
+      border-radius: 33px;
       width: 100%;
       height: 100%;
     }
@@ -65,8 +69,7 @@ const TwitFormBlock = styled.div`
       padding: 0.4em;
       cursor: pointer;
       &:hover {
-        transition: transform 500ms;
-        transform: scale(1.2);
+        color: ${color.lightenBlack};
       }
     }
 
@@ -87,6 +90,7 @@ const TwitFormBlock = styled.div`
   .twit__comment {
     padding: 1em;
     font-size: 14px;
+    border-bottom: 1px solid ${color.borderColor};
 
     .twit__comment-desc {
       display: flex;
@@ -100,7 +104,7 @@ const TwitFormBlock = styled.div`
       & > input {
         flex: 2;
         padding-left: 15px;
-
+        border: none;
         &:focus {
           background: ${color.focusBg};
         }
@@ -113,27 +117,20 @@ const TwitFormBlock = styled.div`
 
 export const TwittForm = () => {
   const user = useSelector((state) => state.auth.user);
-
   return (
     <TwitFormBlock>
       <div className='twit__form'>
         <div className='twit__form-user'>
           <div>
-            <img src={user.profile} alt='유저' />
+            <img src={faker.image.imageUrl()} alt='유저' />
           </div>
           {user.username}
         </div>
 
         <div>
-          <div className='twit__form-desc'>
-            트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗
-            내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗
-            내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗
-            내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗
-            내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용트윗 내용
-          </div>
+          <div className='twit__form-desc'>{faker.lorem.sentences()}</div>
           <div className='twit__form-img'>
-            <img src='' alt='아직없음' />
+            <img src={faker.image.imageUrl()} alt='아직없음' />
           </div>
           <div>
             <div className='twit__form-btn'>
@@ -164,11 +161,29 @@ export const TwittForm = () => {
               <div className='twit__comment-desc'>
                 <div className='twit__form-user'>
                   <div>
-                    <img src={user.profile} alt='유저' />
+                    <img src={faker.image.imageUrl()} alt='유저' />
                   </div>
                   {user.username}
                 </div>
-                <div>댓글 달린거</div>
+                <div>{faker.lorem.sentences()}</div>
+              </div>{" "}
+              <div className='twit__comment-desc'>
+                <div className='twit__form-user'>
+                  <div>
+                    <img src={faker.image.imageUrl()} alt='유저' />
+                  </div>
+                  {user.username}
+                </div>
+                <div>{faker.lorem.sentences()}</div>
+              </div>{" "}
+              <div className='twit__comment-desc'>
+                <div className='twit__form-user'>
+                  <div>
+                    <img src={faker.image.imageUrl()} alt='유저' />
+                  </div>
+                  {user.username}
+                </div>
+                <div>{faker.lorem.sentences()}</div>
               </div>
               <form>
                 <Input type='text' placeholder='댓글입력' />
@@ -176,7 +191,7 @@ export const TwittForm = () => {
                   type='submit'
                   bgColor={color.mainBlue}
                   color={color.white}>
-                  등록
+                  Comment
                 </Button>
               </form>
             </div>

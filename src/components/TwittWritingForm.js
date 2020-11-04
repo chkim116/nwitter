@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Button } from "style/button";
 import color from "style/color";
-
+import faker from "faker/locale/ko";
 import { BiImageAlt } from "react-icons/bi";
 
 import styled from "styled-components";
@@ -14,12 +14,12 @@ const TwitBlock = styled.div`
   .twit__box {
     display: flex;
     padding: 1em;
-    border: 1px solid black;
+    border-radius: 12px;
+    box-shadow: 0.4px 0.4px 2.4px 1px ${color.borderColor};
 
     .twit__box-user {
-      border: 1px solid black;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       margin-right: 10px;
 
@@ -68,7 +68,7 @@ export const TwittWritingForm = () => {
     <TwitBlock>
       <div className='twit__box'>
         <div className='twit__box-user'>
-          <img src={user.profile} alt='유저' />
+          <img src={faker.image.imageUrl()} alt='유저' />
         </div>
         <form>
           <textarea type='text' placeholder='트윗 입력' />
@@ -80,7 +80,7 @@ export const TwittWritingForm = () => {
                 bgColor={color.mainBlue}
                 color={color.white}
                 type='submit'>
-                등록
+                Nweet!
               </Button>
             </div>
           </div>
