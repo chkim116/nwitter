@@ -22,11 +22,15 @@ function App() {
     <div>
       <Switch>
         {isLogin ? (
-          <Route exact path='/' component={Main} />
+          <>
+            <Route exact path='/' component={Main} />
+            <Route path='/user/:id' component={Profile} />
+          </>
         ) : (
-          <Route exact path='/' component={SignIn} />
+          <>
+            <Route exact path='/' component={SignIn} />
+          </>
         )}
-        <Route path='/user/:id' component={Profile} />
       </Switch>
     </div>
   );

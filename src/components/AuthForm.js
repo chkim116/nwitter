@@ -8,6 +8,7 @@ import { FaTwitter } from "react-icons/fa";
 const AuthFormBlock = styled.div`
   width: 100%;
   height: 100vh;
+  margin: 0 auto;
   position: fixed;
   top: 20%;
 
@@ -23,8 +24,6 @@ const AuthFormBlock = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 1em;
-    width: 500px;
-    height: 300px;
     margin: 0 auto;
 
     & > form {

@@ -1,3 +1,4 @@
+import { Footer } from "components/layouts/footer";
 import { loginSubmit } from "modules/auth";
 import { signUpSubmit } from "modules/signup";
 import React, { useCallback, useState } from "react";
@@ -51,6 +52,7 @@ export const SignIn = () => {
         onSignUpSubmit={onSignUpSubmit}
         onSignInSubmit={onSignInSubmit}
       />
+      <Footer />
     </div>
   );
 };
