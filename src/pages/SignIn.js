@@ -1,4 +1,4 @@
-import { loginSubmit, logOut } from "modules/auth";
+import { loginSubmit } from "modules/auth";
 import { signUpSubmit } from "modules/signup";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,13 +14,6 @@ export const SignIn = () => {
       setDoSignUp((prev) => !prev);
     },
     [doSignUp]
-  );
-
-  const onLogout = useCallback(
-    (e) => {
-      dispatch(logOut());
-    },
-    [dispatch]
   );
 
   const onSign = useCallback(
@@ -51,7 +44,6 @@ export const SignIn = () => {
     <div>
       <AuthForm
         isLogin={isLogin}
-        onLogout={onLogout}
         onClick={onClick}
         doSignUp={doSignUp}
         onSign={onSign}
