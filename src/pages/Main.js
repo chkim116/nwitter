@@ -11,9 +11,13 @@ import styled from "styled-components";
 const MainBlock = styled.div`
   display: flex;
   width: 100%;
+  justify-content: center;
 
   .twit {
     display: flex;
+    max-width: 1000px;
+    width: 100%;
+    align-items: center;
     flex-direction: column;
   }
 `;
@@ -29,12 +33,14 @@ export const Main = () => {
     [dispatch]
   );
   return (
-    <MainBlock>
-      <UserAside user={user} onLogout={onLogout} />
-      <div className='twit'>
-        <TwittWritingForm />
-        <TwittForm />
-      </div>
-    </MainBlock>
+    <>
+      <MainBlock>
+        <UserAside user={user} onLogout={onLogout} />
+        <div className='twit'>
+          <TwittWritingForm />
+          <TwittForm />
+        </div>
+      </MainBlock>
+    </>
   );
 };

@@ -4,9 +4,16 @@ import { FaTwitter } from "react-icons/fa";
 import color from "style/color";
 import { Button } from "style/button";
 
+import styled from "styled-components";
+
+const UserBlock = styled.div`
+  position: absolute;
+  left: 5px;
+`;
+
 export const UserAside = ({ user, onLogout }) => {
   return (
-    <div>
+    <UserBlock>
       <FaTwitter fill={color.mainBlue} size={30} />
       <div>
         <div>Wecolme! {user.username}</div>
@@ -23,6 +30,6 @@ export const UserAside = ({ user, onLogout }) => {
           로그아웃
         </Button>
       </div>
-    </div>
+    </UserBlock>
   );
 };

@@ -8,6 +8,7 @@ const color = {
   lightenBlack: "#657786",
   lightenGrey: "#bdc4cb",
   focusBg: "#f5f8fa",
+  red: "#d63031",
 };
 
 export default color;
