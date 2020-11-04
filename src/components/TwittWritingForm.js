@@ -8,9 +8,10 @@ import { BiImageAlt } from "react-icons/bi";
 import styled from "styled-components";
 
 const TwitBlock = styled.div`
-  width: 100%;
+  width: 96%;
   max-width: 560px;
   margin-top: 50px;
+  z-index: 330;
   .twit__box {
     display: flex;
     padding: 1em;

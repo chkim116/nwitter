@@ -3,24 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
 import { UserAside } from "../components/UserAside";
-
 import { logOut } from "modules/auth";
-
-import styled from "styled-components";
-
-const MainBlock = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-
-  .twit {
-    display: flex;
-    max-width: 1000px;
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-  }
-`;
+import { AppContent, AppLayout } from "style/applayout";
 
 export const Main = () => {
   const dispatch = useDispatch();
@@ -34,15 +18,15 @@ export const Main = () => {
   );
   return (
     <>
-      <MainBlock>
+      <AppLayout>
         <UserAside user={user} onLogout={onLogout} />
-        <div className='twit'>
+        <AppContent>
           <TwittWritingForm />
           <TwittForm />
           <TwittForm />
           <TwittForm />
-        </div>
-      </MainBlock>
+        </AppContent>
+      </AppLayout>
     </>
   );
 };

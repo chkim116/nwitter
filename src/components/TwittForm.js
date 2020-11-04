@@ -10,14 +10,18 @@ import { FaRegCommentDots } from "react-icons/fa";
 import styled from "styled-components";
 
 const TwitFormBlock = styled.div`
-  width: 100%;
+  width: 96%;
   max-width: 560px;
+  margin: 0 auto;
   background: ${color.lightenBgColor};
+  z-index: 330;
+
   .twit__form {
     margin-top: 20px;
     background: ${color.white};
     border: 1px solid ${color.borderColor};
     border-top: none;
+
     .twit__form-user {
       padding: 0.8em;
       display: flex;
