@@ -131,10 +131,10 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                     <div>
                       <img src={faker.image.imageUrl()} alt='유저' />
                     </div>
-                    {list.data.creator}
+                    {list.creator}
                   </TwitUser>
                   <TwitBoard>
-                    <div className='twit__form-desc'>{list.data.twitt}</div>
+                    <div className='twit__form-desc'>{list.twitt}</div>
                     <div className='twit__form-img'>
                       <img src={faker.image.imageUrl()} alt='아직없음' />
                     </div>
@@ -177,7 +177,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                             <div>
                               <img src={faker.image.imageUrl()} alt='유저' />
                             </div>
-                            {list.data.creator}
+                            {list.creator}
                           </TwitUser>
                           <div>{faker.lorem.sentences()}</div>
                         </div>
@@ -206,10 +206,10 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                     <div>
                       <img src={faker.image.imageUrl()} alt='유저' />
                     </div>
-                    {list.data.creator}
+                    {list.creator}
                   </TwitUser>
                   <TwitBoard>
-                    <div className='twit__form-desc'>{list.data.twitt}</div>
+                    <div className='twit__form-desc'>{list.twitt}</div>
                     <div className='twit__form-img'>
                       <img src={faker.image.imageUrl()} alt='아직없음' />
                     </div>
@@ -252,7 +252,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                             <div>
                               <img src={faker.image.imageUrl()} alt='유저' />
                             </div>
-                            {list.data.creator}
+                            {list.creator}
                           </TwitUser>
                           <div>{faker.lorem.sentences()}</div>
                         </div>

@@ -23,13 +23,12 @@ function App() {
       try {
         await dbService
           .collection("nweets")
-          .orderBy("data")
+          .limit(5)
           .onSnapshot((snapshot) => {
             const array = snapshot.docs.map((doc) => [
               { ...doc.data(), id: doc.id },
             ]);
             dispatch(getTwitt(array));
-            console.log(array);
           });
       } catch (err) {
         console.log(err);

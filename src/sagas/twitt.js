@@ -1,5 +1,11 @@
 import { dbService } from "fbase";
-import { GET_AUTH_TWITT } from "modules/auth";
+import {
+  GET_AUTH_TWITTID_FAILURE,
+  GET_AUTH_TWITTID_SUCCESS,
+  GET_AUTH_TWITT_FAILURE,
+  GET_AUTH_TWITT_REQUEST,
+  GET_AUTH_TWITT_SUCCESS,
+} from "modules/auth";
 import {
   GET_TWITT_FAILURE,
   GET_TWITT_REQUEST,
@@ -15,20 +21,35 @@ import {
 } from "modules/twit";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 
-function postTwitt(data) {
-  return dbService.collection("nweets").add({ data });
-}
+const postTwitt = (data) => {
+  return dbService
+    .collection("nweets")
+    .add({ ...data })
+    .then((doc) => doc.id);
+};
+
+// const getAuthTwitts = (id) => {
+//   return dbService.collection.where("id", "==", "id").get()
+// }
 
 function* addTwitt(action) {
   const { payload } = action;
   try {
-    yield call(postTwitt, payload);
+    const twittId = yield call(postTwitt, payload);
     yield put({
       type: ADD_TWITT_SUCCESS,
+    });
+    yield put({
+      type: GET_AUTH_TWITTID_SUCCESS,
+      payload: twittId,
     });
   } catch (err) {
     yield put({
       type: ADD_TWITT_FAILURE,
+      payload: err,
+    });
+    yield put({
+      type: GET_AUTH_TWITTID_FAILURE,
       payload: err,
     });
   }
@@ -40,14 +61,25 @@ function* getTwitt(action) {
       type: GET_TWITT_SUCCESS,
       payload: action.payload,
     });
-    yield put({
-      type: GET_AUTH_TWITT,
-      payload: action.payload,
-    });
   } catch (err) {
     console.log(err);
     yield put({
       type: GET_TWITT_FAILURE,
+      payload: err,
+    });
+  }
+}
+
+function* getAuthTwitt(action) {
+  try {
+    // yield call(getAuthTwitts, action);
+    yield put({
+      type: GET_AUTH_TWITT_SUCCESS,
+    });
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: GET_AUTH_TWITT_FAILURE,
       payload: err,
     });
   }
@@ -79,6 +111,13 @@ function* watchComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
+function* watchGetAuthTwitt() {
+  yield takeLatest(GET_AUTH_TWITT_REQUEST, getAuthTwitt);
+}
+
 export default function* twitSaga() {
-  yield all([fork(watchTwitt), fork(watchComment), fork(watchGetTwitt)]);
+  yield all(
+    [fork(watchTwitt), fork(watchComment), fork(watchGetTwitt)],
+    fork(watchGetAuthTwitt)
+  );
 }
