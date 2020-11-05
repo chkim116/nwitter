@@ -1,23 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Profile } from "./pages/Profile";
 import { Main } from "./pages/Main";
-import { SignIn } from "./pages/SignIn";
+import { Login } from "./pages/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "modules/auth";
-import { authService } from "fbase";
+import { authService, dbService } from "fbase";
+import { getTwitt } from "modules/get";
 
 function App() {
   const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.auth.isLogin);
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) dispatch(getAuth(user));
-      else dispatch(getAuth(null));
+      else return;
     });
   }, []);
 
-  const isLogin = useSelector((state) => state.auth.isLogin);
+  useEffect(() => {
+    const getTwit = async () => {
+      try {
+        await dbService.collection("nweets").onSnapshot((snapshot) => {
+          const array = snapshot.docs.map((doc) => [
+            { id: doc.id, ...doc.data() },
+          ]);
+          dispatch(getTwitt(array));
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (isLogin) {
+      getTwit();
+    }
+  }, [isLogin]);
+
   return (
     <div>
       <Switch>
@@ -28,7 +47,7 @@ function App() {
           </>
         ) : (
           <>
-            <Route exact path='/' component={SignIn} />
+            <Route exact path='/' component={Login} />
           </>
         )}
       </Switch>

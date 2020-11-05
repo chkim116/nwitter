@@ -5,18 +5,15 @@ import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthForm } from "../components/AuthForm";
 
-export const SignIn = () => {
+export const Login = () => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [doSignUp, setDoSignUp] = useState(false);
   const isLogin = useSelector((state) => state.auth.isLogin);
 
-  const onClick = useCallback(
-    (e) => {
-      setDoSignUp((prev) => !prev);
-    },
-    [doSignUp]
-  );
+  const onClick = useCallback((e) => {
+    setDoSignUp((prev) => !prev);
+  }, []);
 
   const onSign = useCallback(
     (e) => {

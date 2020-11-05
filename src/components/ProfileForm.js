@@ -3,7 +3,7 @@ import { BsPencil } from "react-icons/bs";
 import styled from "styled-components";
 import color from "style/color";
 
-const ProfileBlock = styled.div`
+const ProfileContainer = styled.div`
   max-width: 560px;
   width: 100%;
   display: flex;
@@ -39,7 +39,7 @@ const MyTwitter = styled.div`
 export const ProfileForm = ({ user }) => {
   return (
     <>
-      <ProfileBlock>
+      <ProfileContainer>
         <div className='user__profile-desc'>
           <div>{user.username}</div>
           <div>자기소개 하하하하</div>
@@ -47,7 +47,7 @@ export const ProfileForm = ({ user }) => {
         <div>
           <BsPencil size={18} fill={color.lightenBlack} />
         </div>
-      </ProfileBlock>
+      </ProfileContainer>
       <MyTwitter className='mytwit'>My Tweet</MyTwitter>
     </>
   );

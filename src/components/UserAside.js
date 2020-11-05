@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { FaTwitter } from "react-icons/fa";
 import color from "style/color";
 import { Button } from "style/button";
@@ -8,9 +8,12 @@ import { GoHome } from "react-icons/go";
 import { CgList } from "react-icons/cg";
 import { ImProfile } from "react-icons/im";
 import styled from "styled-components";
+import { logOut } from "modules/auth";
+import { useDispatch } from "react-redux";
 
 const UserBlock = styled.div`
-  position: relative;
+  position: sticky;
+  top: 35px;
   left: 0px;
   width: 280px;
   display: flex;
@@ -29,56 +32,66 @@ const UserBlock = styled.div`
     margin: 1em;
     z-index: 33;
   }
+`;
 
-  .user__aside {
-    width: 100%;
-    border-top: 1px solid ${color.borderColor};
-    margin-top: 30px;
+const AsideBlock = styled.div`
+  width: 100%;
+  border-top: 1px solid ${color.borderColor};
+  margin-top: 30px;
 
-    @media all and (max-width: 800px) {
-      position: absolute;
-      padding-top: 100px;
-      background: ${color.white};
-      top: -31px;
-      left: -999px;
-      height: 100vh;
-      width: 280px;
-      overflow: hidden;
-    }
+  @media all and (max-width: 800px) {
+    position: absolute;
+    padding-top: 100px;
+    background: ${color.white};
+    top: -31px;
+    left: -999px;
+    height: 100vh;
+    width: 280px;
+    overflow: hidden;
+  }
 
-    & > ul {
-      & > li {
-        position: relative;
-        margin: 2em 0;
-        left: 45px;
+  ul {
+    li {
+      position: relative;
+      margin: 2em 0;
+      left: 45px;
 
-        & > a {
-          font-weight: bold;
-          color: ${color.black};
-          .link-icon {
-            position: absolute;
-            left: -30px;
-            top: -2px;
-          }
+      a {
+        font-weight: bold;
+        color: ${color.black};
+        .link-icon {
+          position: absolute;
+          left: -30px;
+          top: -2px;
         }
       }
+    }
 
-      & > button {
-        position: relative;
-        left: 10px;
-        font-size: 12px;
-      }
+    button {
+      position: relative;
+      left: 10px;
+      font-size: 12px;
     }
   }
 `;
 
-export const UserAside = ({ user, onLogout }) => {
+export const UserAside = ({ user }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const onLogout = useCallback(
+    (e) => {
+      dispatch(logOut());
+      history.push("/");
+    },
+    [dispatch]
+  );
+
   return (
     <UserBlock>
       <div className='twit__logo'>
         <FaTwitter fill={color.mainBlue} size={30} />
       </div>
-      <div className='user__aside'>
+      <AsideBlock>
         <ul>
           <li>
             <Link to='/'>
@@ -106,7 +119,7 @@ export const UserAside = ({ user, onLogout }) => {
             로그아웃
           </Button>
         </ul>
-      </div>
+      </AsideBlock>
     </UserBlock>
   );
 };

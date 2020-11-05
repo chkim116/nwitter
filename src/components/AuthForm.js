@@ -5,7 +5,7 @@ import { Button } from "../style/button";
 import color from "style/color";
 import { FaTwitter } from "react-icons/fa";
 
-const AuthFormBlock = styled.div`
+const AuthContainer = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
@@ -18,38 +18,38 @@ const AuthFormBlock = styled.div`
     width: 100%;
     text-align: center;
   }
+`;
 
-  .auth__form {
+const AuthFormBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  margin: 0 auto;
+
+  & > form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1em;
-    margin: 0 auto;
 
-    & > form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      & > input {
-        padding: 0.5em;
-        width: 200px;
-        margin: 0.5em 0;
-        &:focus {
-          background-color: ${color.focusBg};
-        }
-      }
-
-      & > button {
-        margin: 1em 0;
-        width: 100px;
+    & > input {
+      padding: 0.5em;
+      width: 200px;
+      margin: 0.5em 0;
+      &:focus {
+        background-color: ${color.focusBg};
       }
     }
 
-    .auth-btn {
+    & > button {
+      margin: 1em 0;
       width: 100px;
-      border: 1px solid ${color.mainBlue};
     }
+  }
+
+  .auth-btn {
+    width: 100px;
+    border: 1px solid ${color.mainBlue};
   }
 `;
 
@@ -61,11 +61,11 @@ export const AuthForm = ({
   onSignUpSubmit,
 }) => {
   return (
-    <AuthFormBlock>
+    <AuthContainer>
       <div className='auth__logo'>
         <FaTwitter fill={color.mainBlue} size={36} />
       </div>
-      <div className='auth__form'>
+      <AuthFormBlock>
         {doSignUp ? <h2>가입</h2> : <h2>로그인</h2>}
         <form
           onChange={onSign}
@@ -104,7 +104,7 @@ export const AuthForm = ({
             SignIn
           </Button>
         )}
-      </div>
-    </AuthFormBlock>
+      </AuthFormBlock>
+    </AuthContainer>
   );
 };

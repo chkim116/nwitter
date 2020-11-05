@@ -7,7 +7,7 @@ import { BiImageAlt } from "react-icons/bi";
 
 import styled from "styled-components";
 
-const TwitBlock = styled.div`
+const TwitContainer = styled.div`
   width: 96%;
   max-width: 560px;
   margin-top: 50px;
@@ -30,49 +30,54 @@ const TwitBlock = styled.div`
         border-radius: 50%;
       }
     }
-
-    & > form {
-      display: flex;
-      width: 100%;
-      flex-direction: column;
-      & > textarea {
-        all: unset;
-        font-size: 14px;
-        padding: 1em;
-        border: none;
-        height: 40px;
-        resize: none;
-        overflow: scroll;
-        &::-webkit-scrollbar {
-          display: none; /* Chrome, Safari, Opera*/
-        }
-
-        &:focus {
-          background: ${color.focusBg};
-        }
-      }
-    }
-
-    .twit__box-submit {
-      display: flex;
-      font-size: 12px;
-      margin-top: 6px;
-      justify-content: space-between;
-    }
   }
 `;
 
-export const TwittWritingForm = () => {
+const TwitWritingBlock = styled.form`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  & > textarea {
+    all: unset;
+    font-size: 14px;
+    padding: 1em;
+    border: none;
+    height: 40px;
+    resize: none;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
+
+    &:focus {
+      background: ${color.focusBg};
+    }
+  }
+
+  .twit__box-submit {
+    display: flex;
+    font-size: 12px;
+    margin-top: 6px;
+    justify-content: space-between;
+  }
+`;
+
+export const TwittWritingForm = ({ onTwittText, onTwittSubmit }) => {
   const user = useSelector((state) => state.auth.user);
 
   return (
-    <TwitBlock>
+    <TwitContainer>
       <div className='twit__box'>
         <div className='twit__box-user'>
           <img src={faker.image.imageUrl()} alt='유저' />
         </div>
-        <form>
-          <textarea type='text' placeholder='트윗 입력' />
+
+        <TwitWritingBlock onSubmit={onTwittSubmit}>
+          <textarea
+            onChange={onTwittText}
+            type='text'
+            placeholder='트윗 입력'
+          />
           <div>
             <div className='twit__box-submit'>
               <input type='file' accept='image/*' hidden />
@@ -85,8 +90,8 @@ export const TwittWritingForm = () => {
               </Button>
             </div>
           </div>
-        </form>
+        </TwitWritingBlock>
       </div>
-    </TwitBlock>
+    </TwitContainer>
   );
 };

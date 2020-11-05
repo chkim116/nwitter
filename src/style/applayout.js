@@ -5,14 +5,15 @@ const AppBlock = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
+  margin-bottom: 5em;
 `;
 
 const AppContentBlock = styled.div`
   display: flex;
+  flex-direction: column;
   max-width: 1000px;
   width: 100%;
   align-items: center;
-  flex-direction: column;
 `;
 export const AppLayout = ({ children }) => {
   return <AppBlock>{children}</AppBlock>;

@@ -1,29 +1,48 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
 import { UserAside } from "../components/UserAside";
-import { logOut } from "modules/auth";
 import { AppContent, AppLayout } from "style/applayout";
+import { addTwitt } from "modules/twit";
+import { getTwitt } from "modules/get";
+import { dbService } from "fbase";
 
 export const Main = () => {
+  const [twitt, setTwitt] = useState("");
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
 
-  const onLogout = useCallback(
+  const onTwittText = useCallback(
     (e) => {
-      dispatch(logOut());
+      setTwitt(e.target.value);
     },
-    [dispatch]
+    [twitt]
   );
+
+  const onTwittSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(
+        addTwitt({
+          twitt: twitt,
+          creator: user.id,
+          createAt: new Date().toLocaleString("ko-KR"),
+        })
+      );
+    },
+    [twitt, dispatch]
+  );
+
   return (
     <>
       <AppLayout>
-        <UserAside user={user} onLogout={onLogout} />
+        <UserAside user={user} />
         <AppContent>
-          <TwittWritingForm />
-          <TwittForm />
-          <TwittForm />
+          <TwittWritingForm
+            onTwittText={onTwittText}
+            onTwittSubmit={onTwittSubmit}
+          />
           <TwittForm />
         </AppContent>
       </AppLayout>

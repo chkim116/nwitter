@@ -4,7 +4,7 @@ import faker from "faker";
 import styled from "styled-components";
 import color from "style/color";
 
-const BannerBlock = styled.div`
+const BannerContainer = styled.div`
   margin-top: 45px;
   padding-bottom: 70px;
   max-width: 560px;
@@ -40,13 +40,13 @@ const BannerBlock = styled.div`
 
 export const ProfileBanner = () => {
   return (
-    <BannerBlock>
+    <BannerContainer>
       <div className='user__profile-banner'>
         <img src={faker.image.imageUrl()} alt='배너' />
         <div className='user__profile-img'>
           <img src={faker.image.imageUrl()} alt='프로필사진' />
         </div>
       </div>
-    </BannerBlock>
+    </BannerContainer>
   );
 };
