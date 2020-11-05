@@ -9,7 +9,7 @@ import { CgList } from "react-icons/cg";
 import { ImProfile } from "react-icons/im";
 import styled from "styled-components";
 import { logOut } from "modules/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const UserBlock = styled.div`
   position: sticky;
@@ -77,7 +77,13 @@ const AsideBlock = styled.div`
 
 export const UserAside = ({ user }) => {
   const dispatch = useDispatch();
+  const { id } = useSelector((state) => state.auth.user);
   const history = useHistory();
+
+  const onMove = useCallback((e) => {
+    window.scroll({ top: 0, behavior: "smooth" });
+  }, []);
+
   const onLogout = useCallback(
     (e) => {
       dispatch(logOut());
@@ -93,20 +99,20 @@ export const UserAside = ({ user }) => {
       </div>
       <AsideBlock>
         <ul>
-          <li>
+          <li onClick={onMove}>
             <Link to='/'>
               <GoHome size={24} className='link-icon' />
               Home
             </Link>
           </li>
-          <li>
-            <Link to='/user/3'>
+          <li onClick={onMove}>
+            <Link to={`/user/${id}`}>
               <ImProfile size={24} className='link-icon' />
               Profile
             </Link>
           </li>
-          <li>
-            <Link to='/user/3/likes'>
+          <li onClick={onMove}>
+            <Link to={`/user/${id}/likes`}>
               <CgList size={24} className='link-icon' />
               Like Lists
             </Link>

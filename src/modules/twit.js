@@ -10,7 +10,7 @@ const initialState = {
   isLoading: false,
   isDone: false,
   error: null,
-  twitt: { twitt: "", creator: "", createAt: "" },
+  twitt: { twitt: "", creator: "", creatorId: "", createAt: "", imgUrl: "" },
   comment: {
     creator: "",
     comment: "",
@@ -41,6 +41,8 @@ function twit(state = initialState, action) {
           twitt: action.payload.twitt,
           creator: action.payload.creator,
           createAt: action.payload.createAt,
+          creatorId: action.payload.creatorId,
+          imgUrl: action.payload.imgUrl,
         },
       };
     case ADD_TWITT_SUCCESS:

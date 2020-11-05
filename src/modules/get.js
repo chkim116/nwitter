@@ -3,8 +3,7 @@ export const GET_TWITT_SUCCESS = "get/GET_TWITT_SUCCESS";
 export const GET_TWITT_FAILURE = "get/GET_TWITT_FAILURE";
 
 const initialState = {
-  isLoading: false,
-  isDone: false,
+  hasTwitts: false,
   error: "",
   twitts: [],
 };
@@ -19,21 +18,19 @@ function get(state = initialState, action) {
     case GET_TWITT_REQUEST:
       return {
         ...state,
-        isLoading: true,
-        isDone: false,
+        hasTwitts: false,
         error: "",
       };
     case GET_TWITT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        isDone: true,
-        twitts: action.payload.map((list) => list),
+        hasTwitts: true,
+        twitts: action.payload,
       };
     case GET_TWITT_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        hasTwitts: false,
         error: action.payload,
       };
 

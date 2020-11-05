@@ -11,7 +11,6 @@ import { getTwitt } from "modules/get";
 function App() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.auth.isLogin);
-
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) dispatch(getAuth(user));
@@ -22,12 +21,16 @@ function App() {
   useEffect(() => {
     const getTwit = async () => {
       try {
-        await dbService.collection("nweets").onSnapshot((snapshot) => {
-          const array = snapshot.docs.map((doc) => [
-            { id: doc.id, ...doc.data() },
-          ]);
-          dispatch(getTwitt(array));
-        });
+        await dbService
+          .collection("nweets")
+          .orderBy("data")
+          .onSnapshot((snapshot) => {
+            const array = snapshot.docs.map((doc) => [
+              { ...doc.data(), id: doc.id },
+            ]);
+            dispatch(getTwitt(array));
+            console.log(array);
+          });
       } catch (err) {
         console.log(err);
       }

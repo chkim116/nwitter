@@ -6,7 +6,8 @@ export const LOGOUT_REQUSET = "auth/LOGOUT_REQUSET";
 export const LOGOUT_SUCCESS = "auth/LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "auth/LOGOUT_FAILURE";
 
-export const GET_AUTH = "GET_AUTH";
+export const GET_AUTH = "auth/GET_AUTH";
+export const GET_AUTH_TWITT = "auth/GET_AUTH_TWITT";
 
 const initialState = {
   login: { email: "", password: "" },
@@ -18,7 +19,7 @@ const initialState = {
     email: "",
     username: "",
     profile: "",
-    twit: [],
+    twitts: [],
     like: [],
   },
 };
@@ -35,6 +36,11 @@ export const logOut = () => ({
 export const getAuth = (user) => ({
   type: GET_AUTH,
   payload: user,
+});
+
+export const getAuthTwitt = (twitt) => ({
+  type: GET_AUTH_TWITT,
+  payload: twitt,
 });
 
 function auth(state = initialState, action) {
@@ -91,6 +97,16 @@ function auth(state = initialState, action) {
           email: action.payload.email,
           id: action.payload.uid,
           username: action.payload.email.split("@")[0],
+        },
+      };
+    case GET_AUTH_TWITT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          twitts: action.payload.map((twitt) =>
+            twitt.filter((t) => t.data.creatorId === state.user.id)
+          ),
         },
       };
 

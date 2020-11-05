@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Button } from "style/button";
 import color from "style/color";
 import { Input } from "style/input";
@@ -120,72 +119,160 @@ const TwitCommnet = styled.div`
   }
 `;
 
-export const TwittForm = () => {
-  const user = useSelector((state) => state.auth.user);
+export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
   return (
-    <TwitContainer>
-      <div className='twit__form'>
-        <TwitUser>
-          <div>
-            <img src={faker.image.imageUrl()} alt='유저' />
-          </div>
-          {user.username}
-        </TwitUser>
+    <>
+      {hasTwitts && twitts
+        ? twitts.map((twitt) =>
+            twitt.map((list) => (
+              <TwitContainer key={list.id}>
+                <div className='twit__form'>
+                  <TwitUser>
+                    <div>
+                      <img src={faker.image.imageUrl()} alt='유저' />
+                    </div>
+                    {list.data.creator}
+                  </TwitUser>
+                  <TwitBoard>
+                    <div className='twit__form-desc'>{list.data.twitt}</div>
+                    <div className='twit__form-img'>
+                      <img src={faker.image.imageUrl()} alt='아직없음' />
+                    </div>
+                    <div>
+                      <div className='twit__form-btn'>
+                        <div className='comment-btn'>
+                          <FaRegCommentDots
+                            fill={color.lightenBlack}
+                            size={24}
+                          />
+                        </div>
+                        <div className='like-btn'>
+                          <AiOutlineLike fill={color.lightenBlack} size={24} />
+                        </div>
+                        <div className='view-btn'>
+                          <AiOutlineEllipsis
+                            fill={color.lightenBlack}
+                            size={24}
+                          />
+                          <div className='twit__form-edit'>
+                            <Button
+                              type='button'
+                              bgColor={color.mainBlue}
+                              color={color.white}>
+                              수정
+                            </Button>
+                            <Button
+                              type='button'
+                              bgColor={color.red}
+                              color={color.white}>
+                              삭제
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      {/* 코멘트 누르면 보이게 */}
+                      <TwitCommnet>
+                        <div className='twit__comment-desc'>
+                          <TwitUser>
+                            <div>
+                              <img src={faker.image.imageUrl()} alt='유저' />
+                            </div>
+                            {list.data.creator}
+                          </TwitUser>
+                          <div>{faker.lorem.sentences()}</div>
+                        </div>
 
-        <TwitBoard>
-          <div className='twit__form-desc'>{faker.lorem.sentences()}</div>
-          <div className='twit__form-img'>
-            <img src={faker.image.imageUrl()} alt='아직없음' />
-          </div>
-          <div>
-            <div className='twit__form-btn'>
-              <div className='comment-btn'>
-                <FaRegCommentDots fill={color.lightenBlack} size={24} />
-              </div>
-              <div className='like-btn'>
-                <AiOutlineLike fill={color.lightenBlack} size={24} />
-              </div>
-              <div className='view-btn'>
-                <AiOutlineEllipsis fill={color.lightenBlack} size={24} />
-                <div className='twit__form-edit'>
-                  <Button
-                    type='button'
-                    bgColor={color.mainBlue}
-                    color={color.white}>
-                    수정
-                  </Button>
-                  <Button type='button' bgColor={color.red} color={color.white}>
-                    삭제
-                  </Button>
+                        <form>
+                          <Input type='text' placeholder='댓글입력' />
+                          <Button
+                            type='submit'
+                            bgColor={color.mainBlue}
+                            color={color.white}>
+                            Comment
+                          </Button>
+                        </form>
+                      </TwitCommnet>
+                    </div>
+                  </TwitBoard>
                 </div>
-              </div>
-            </div>
+              </TwitContainer>
+            ))
+          )
+        : AuthTwitt.map((twitt) =>
+            twitt.map((list) => (
+              <TwitContainer key={list.id}>
+                <div className='twit__form'>
+                  <TwitUser>
+                    <div>
+                      <img src={faker.image.imageUrl()} alt='유저' />
+                    </div>
+                    {list.data.creator}
+                  </TwitUser>
+                  <TwitBoard>
+                    <div className='twit__form-desc'>{list.data.twitt}</div>
+                    <div className='twit__form-img'>
+                      <img src={faker.image.imageUrl()} alt='아직없음' />
+                    </div>
+                    <div>
+                      <div className='twit__form-btn'>
+                        <div className='comment-btn'>
+                          <FaRegCommentDots
+                            fill={color.lightenBlack}
+                            size={24}
+                          />
+                        </div>
+                        <div className='like-btn'>
+                          <AiOutlineLike fill={color.lightenBlack} size={24} />
+                        </div>
+                        <div className='view-btn'>
+                          <AiOutlineEllipsis
+                            fill={color.lightenBlack}
+                            size={24}
+                          />
+                          <div className='twit__form-edit'>
+                            <Button
+                              type='button'
+                              bgColor={color.mainBlue}
+                              color={color.white}>
+                              수정
+                            </Button>
+                            <Button
+                              type='button'
+                              bgColor={color.red}
+                              color={color.white}>
+                              삭제
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      {/* 코멘트 누르면 보이게 */}
+                      <TwitCommnet>
+                        <div className='twit__comment-desc'>
+                          <TwitUser>
+                            <div>
+                              <img src={faker.image.imageUrl()} alt='유저' />
+                            </div>
+                            {list.data.creator}
+                          </TwitUser>
+                          <div>{faker.lorem.sentences()}</div>
+                        </div>
 
-            {/* 코멘트 누르면 보이게 */}
-            <TwitCommnet>
-              <div className='twit__comment-desc'>
-                <TwitUser>
-                  <div>
-                    <img src={faker.image.imageUrl()} alt='유저' />
-                  </div>
-                  {user.username}
-                </TwitUser>
-                <div>{faker.lorem.sentences()}</div>
-              </div>
-
-              <form>
-                <Input type='text' placeholder='댓글입력' />
-                <Button
-                  type='submit'
-                  bgColor={color.mainBlue}
-                  color={color.white}>
-                  Comment
-                </Button>
-              </form>
-            </TwitCommnet>
-          </div>
-        </TwitBoard>
-      </div>
-    </TwitContainer>
+                        <form>
+                          <Input type='text' placeholder='댓글입력' />
+                          <Button
+                            type='submit'
+                            bgColor={color.mainBlue}
+                            color={color.white}>
+                            Comment
+                          </Button>
+                        </form>
+                      </TwitCommnet>
+                    </div>
+                  </TwitBoard>
+                </div>
+              </TwitContainer>
+            ))
+          )}
+    </>
   );
 };

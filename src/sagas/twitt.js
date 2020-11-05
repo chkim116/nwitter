@@ -1,4 +1,5 @@
 import { dbService } from "fbase";
+import { GET_AUTH_TWITT } from "modules/auth";
 import {
   GET_TWITT_FAILURE,
   GET_TWITT_REQUEST,
@@ -37,6 +38,10 @@ function* getTwitt(action) {
   try {
     yield put({
       type: GET_TWITT_SUCCESS,
+      payload: action.payload,
+    });
+    yield put({
+      type: GET_AUTH_TWITT,
       payload: action.payload,
     });
   } catch (err) {

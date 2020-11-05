@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Button } from "style/button";
 import color from "style/color";
 import faker from "faker/locale/ko";
@@ -62,9 +61,7 @@ const TwitWritingBlock = styled.form`
   }
 `;
 
-export const TwittWritingForm = ({ onTwittText, onTwittSubmit }) => {
-  const user = useSelector((state) => state.auth.user);
-
+export const TwittWritingForm = ({ twitt, onTwittText, onTwittSubmit }) => {
   return (
     <TwitContainer>
       <div className='twit__box'>
@@ -74,6 +71,7 @@ export const TwittWritingForm = ({ onTwittText, onTwittSubmit }) => {
 
         <TwitWritingBlock onSubmit={onTwittSubmit}>
           <textarea
+            value={twitt}
             onChange={onTwittText}
             type='text'
             placeholder='트윗 입력'
