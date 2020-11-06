@@ -7,9 +7,9 @@ import { AuthForm } from "../components/AuthForm";
 
 export const Login = () => {
   const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.auth.isLogin);
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [doSignUp, setDoSignUp] = useState(false);
-  const isLogin = useSelector((state) => state.auth.isLogin);
 
   const onClick = useCallback((e) => {
     setDoSignUp((prev) => !prev);

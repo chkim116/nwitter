@@ -129,7 +129,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                 <div className='twit__form'>
                   <TwitUser>
                     <div>
-                      <img src={faker.image.imageUrl()} alt='유저' />
+                      <img src={list.profile} alt='유저' />
                     </div>
                     {list.creator}
                   </TwitUser>
@@ -175,7 +175,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                         <div className='twit__comment-desc'>
                           <TwitUser>
                             <div>
-                              <img src={faker.image.imageUrl()} alt='유저' />
+                              <img src={list.profile} alt='유저' />
                             </div>
                             {list.creator}
                           </TwitUser>
@@ -204,7 +204,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                 <div className='twit__form'>
                   <TwitUser>
                     <div>
-                      <img src={faker.image.imageUrl()} alt='유저' />
+                      <img src={list.profile} alt='유저' />
                     </div>
                     {list.creator}
                   </TwitUser>
@@ -250,7 +250,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                         <div className='twit__comment-desc'>
                           <TwitUser>
                             <div>
-                              <img src={faker.image.imageUrl()} alt='유저' />
+                              <img src={list.profile} alt='유저' />
                             </div>
                             {list.creator}
                           </TwitUser>

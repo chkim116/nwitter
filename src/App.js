@@ -11,6 +11,7 @@ import { getTwitt } from "modules/get";
 function App() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.auth.isLogin);
+
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) dispatch(getAuth(user));

@@ -1,7 +1,5 @@
 import { dbService } from "fbase";
 import {
-  GET_AUTH_TWITTID_FAILURE,
-  GET_AUTH_TWITTID_SUCCESS,
   GET_AUTH_TWITT_FAILURE,
   GET_AUTH_TWITT_REQUEST,
   GET_AUTH_TWITT_SUCCESS,
@@ -22,34 +20,18 @@ import {
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 
 const postTwitt = (data) => {
-  return dbService
-    .collection("nweets")
-    .add({ ...data })
-    .then((doc) => doc.id);
+  return dbService.collection("nweets").add({ ...data });
 };
 
-// const getAuthTwitts = (id) => {
-//   return dbService.collection.where("id", "==", "id").get()
-// }
-
 function* addTwitt(action) {
-  const { payload } = action;
   try {
-    const twittId = yield call(postTwitt, payload);
+    yield call(postTwitt, action.payload);
     yield put({
       type: ADD_TWITT_SUCCESS,
-    });
-    yield put({
-      type: GET_AUTH_TWITTID_SUCCESS,
-      payload: twittId,
     });
   } catch (err) {
     yield put({
       type: ADD_TWITT_FAILURE,
-      payload: err,
-    });
-    yield put({
-      type: GET_AUTH_TWITTID_FAILURE,
       payload: err,
     });
   }
@@ -72,9 +54,9 @@ function* getTwitt(action) {
 
 function* getAuthTwitt(action) {
   try {
-    // yield call(getAuthTwitts, action);
     yield put({
       type: GET_AUTH_TWITT_SUCCESS,
+      payload: action.payload,
     });
   } catch (err) {
     console.log(err);
@@ -116,8 +98,10 @@ function* watchGetAuthTwitt() {
 }
 
 export default function* twitSaga() {
-  yield all(
-    [fork(watchTwitt), fork(watchComment), fork(watchGetTwitt)],
-    fork(watchGetAuthTwitt)
-  );
+  yield all([
+    fork(watchTwitt),
+    fork(watchComment),
+    fork(watchGetTwitt),
+    fork(watchGetAuthTwitt),
+  ]);
 }

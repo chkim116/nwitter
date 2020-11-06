@@ -10,10 +10,6 @@ export const GET_AUTH_TWITT_REQUEST = "auth/GET_AUTH_TWITT_REQUEST";
 export const GET_AUTH_TWITT_SUCCESS = "auth/GET_AUTH_TWITT_SUCCESS";
 export const GET_AUTH_TWITT_FAILURE = "auth/GET_AUTH_TWITT_FAILURE";
 
-export const GET_AUTH_TWITTID_REQUEST = "auth/GET_AUTH_TWITTID_REQUEST";
-export const GET_AUTH_TWITTID_SUCCESS = "auth/GET_AUTH_TWITTID_SUCCESS";
-export const GET_AUTH_TWITTID_FAILURE = "auth/GET_AUTH_TWITTID_FAILURE";
-
 export const GET_AUTH = "auth/GET_AUTH";
 
 const initialState = {
@@ -46,6 +42,11 @@ export const getAuth = (user) => ({
   payload: user,
 });
 
+export const getAuthTwitt = (twitts) => ({
+  type: GET_AUTH_TWITT_REQUEST,
+  payload: twitts,
+});
+
 function auth(state = initialState, action) {
   switch (action.type) {
     case LOGIN_SUBMIT_REQUSET:
@@ -63,7 +64,10 @@ function auth(state = initialState, action) {
           ...state.user,
           email: action.payload.user.email,
           id: action.payload.user.uid,
-          username: action.payload.user.email.split("@")[0],
+          username:
+            action.payload.user.displayName ||
+            action.payload.user.email.split("@")[0],
+          profile: action.payload.user.photoUrl || "",
         },
       };
     case LOGIN_SUBMIT_FAILURE:
@@ -99,7 +103,9 @@ function auth(state = initialState, action) {
           ...state.user,
           email: action.payload.email,
           id: action.payload.uid,
-          username: action.payload.email.split("@")[0],
+          username:
+            action.payload.displayName || action.payload.email.split("@")[0],
+          profile: action.payload.photoUrl || "",
         },
       };
 
@@ -116,7 +122,9 @@ function auth(state = initialState, action) {
         isLoading: false,
         user: {
           ...state.user,
-          twitts: action.payload.filter((t) => t.creatorId === state.user.id),
+          twitts: action.payload
+            .map((twitt) => twitt.filter((f) => f.creatorId === state.user.id))
+            .filter((le) => le.length > 0),
         },
       };
     case GET_AUTH_TWITT_FAILURE:
@@ -126,28 +134,6 @@ function auth(state = initialState, action) {
         error: action.payload,
       };
 
-    case GET_AUTH_TWITTID_REQUEST:
-      return {
-        ...state,
-        hasTwitts: false,
-        isLoading: true,
-      };
-    case GET_AUTH_TWITTID_SUCCESS:
-      return {
-        ...state,
-        hasTwitts: true,
-        isLoading: false,
-        user: {
-          ...state.user,
-          twitts: state.user.twitts.concat(action.payload),
-        },
-      };
-    case GET_AUTH_TWITTID_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload,
-      };
     default:
       return state;
   }
