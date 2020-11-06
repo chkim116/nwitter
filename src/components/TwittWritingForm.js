@@ -5,6 +5,7 @@ import faker from "faker/locale/ko";
 import { BiImageAlt } from "react-icons/bi";
 
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const TwitContainer = styled.div`
   width: 96%;
@@ -62,11 +63,12 @@ const TwitWritingBlock = styled.form`
 `;
 
 export const TwittWritingForm = ({ twitt, onTwittText, onTwittSubmit }) => {
+  const user = useSelector((state) => state.auth.user);
   return (
     <TwitContainer>
       <div className='twit__box'>
         <div className='twit__box-user'>
-          <img src={faker.image.imageUrl()} alt='유저' />
+          <img src={user.profile} alt='유저' />
         </div>
 
         <TwitWritingBlock onSubmit={onTwittSubmit}>

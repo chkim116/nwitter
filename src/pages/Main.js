@@ -4,7 +4,7 @@ import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
 import { UserAside } from "../components/UserAside";
 import { AppContent, AppLayout } from "style/applayout";
-import { addTwitt } from "modules/twit";
+import { addComment, addTwitt } from "modules/twit";
 
 export const Main = () => {
   const [twitt, setTwitt] = useState("");
@@ -27,13 +27,41 @@ export const Main = () => {
           twitt: twitt,
           creator: user.username,
           creatorId: user.id,
-          imgUrl: "",
+          imgUrl: user.imgUrl || "",
           createAt: new Date().toLocaleString("ko-KR"),
         })
       );
       setTwitt("");
     },
     [twitt, dispatch]
+  );
+
+  //  comment
+
+  const [commentText, setCommentText] = useState("");
+  const onComment = useCallback(
+    (e) => {
+      setCommentText(e.target.value);
+    },
+    [commentText]
+  );
+
+  const onCommentSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { id } = e.target.dataset;
+      const comment = {
+        comment: commentText,
+        id,
+        creator: user.username,
+        creatorId: user.id,
+        profile: user.imgUrl || "",
+        createAt: new Date().toLocaleString("ko-KR"),
+      };
+      dispatch(addComment(comment));
+      setCommentText("");
+    },
+    [commentText, dispatch]
   );
 
   return (
@@ -47,7 +75,13 @@ export const Main = () => {
             onTwittSubmit={onTwittSubmit}
           />
           {hasTwitts ? (
-            <TwittForm hasTwitts={hasTwitts} twitts={twitts} />
+            <TwittForm
+              hasTwitts={hasTwitts}
+              twitts={twitts}
+              onComment={onComment}
+              onCommentSubmit={onCommentSubmit}
+              commentText={commentText}
+            />
           ) : (
             <div>로딩 중</div>
           )}

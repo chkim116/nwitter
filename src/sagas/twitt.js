@@ -1,4 +1,5 @@
 import { dbService } from "fbase";
+import firebase from "firebase";
 import {
   GET_AUTH_TWITT_FAILURE,
   GET_AUTH_TWITT_REQUEST,
@@ -21,6 +22,13 @@ import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 
 const postTwitt = (data) => {
   return dbService.collection("nweets").add({ ...data });
+};
+
+const addCommentWithTwitt = (comment) => {
+  const commentRef = dbService.collection("nweets").doc(comment.id);
+  return commentRef.update({
+    comments: firebase.firestore.FieldValue.arrayUnion(comment),
+  });
 };
 
 function* addTwitt(action) {
@@ -67,9 +75,9 @@ function* getAuthTwitt(action) {
   }
 }
 
-function* addComment() {
+function* addComment(action) {
   try {
-    yield call();
+    yield call(addCommentWithTwitt, action.payload);
     yield put({
       type: ADD_COMMENT_SUCCESS,
     });

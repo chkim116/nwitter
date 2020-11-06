@@ -10,10 +10,21 @@ const initialState = {
   isLoading: false,
   isDone: false,
   error: null,
-  twitt: { twitt: "", creator: "", creatorId: "", createAt: "", imgUrl: "" },
-  comment: {
+  twitt: {
+    id: "",
+    twitt: "",
     creator: "",
+    creatorId: "",
+    createAt: "",
+    imgUrl: "",
+    comments: [],
+    likes: [],
+  },
+  comment: {
     comment: "",
+    id: "",
+    creator: "",
+    creatorId: "",
     createAt: "",
   },
 };
@@ -43,6 +54,9 @@ function twit(state = initialState, action) {
           createAt: action.payload.createAt,
           creatorId: action.payload.creatorId,
           imgUrl: action.payload.imgUrl,
+          id: action.payload.id,
+          comments: [],
+          likes: [],
         },
       };
     case ADD_TWITT_SUCCESS:
@@ -66,9 +80,11 @@ function twit(state = initialState, action) {
         error: null,
         comment: {
           ...state.comment,
-          creator: action.payload.id,
+          creator: action.payload.username,
+          creatorId: action.payload.id,
           comment: action.payload.comment,
           createAt: new Date().toLocaleString("ko-KR"),
+          profile: action.payload.profile,
         },
       };
     case ADD_COMMENT_SUCCESS:

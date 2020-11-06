@@ -119,7 +119,14 @@ const TwitCommnet = styled.div`
   }
 `;
 
-export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
+export const TwittForm = ({
+  hasTwitts,
+  twitts,
+  AuthTwitt,
+  onComment,
+  onCommentSubmit,
+  commentText,
+}) => {
   return (
     <>
       {hasTwitts && twitts
@@ -136,7 +143,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                   <TwitBoard>
                     <div className='twit__form-desc'>{list.twitt}</div>
                     <div className='twit__form-img'>
-                      <img src={faker.image.imageUrl()} alt='아직없음' />
+                      <img src={list.imgUrl} alt='아직없음' />
                     </div>
                     <div>
                       <div className='twit__form-btn'>
@@ -172,18 +179,26 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                       </div>
                       {/* 코멘트 누르면 보이게 */}
                       <TwitCommnet>
-                        <div className='twit__comment-desc'>
-                          <TwitUser>
-                            <div>
-                              <img src={list.profile} alt='유저' />
+                        {list.comments &&
+                          list.comments.map((cm, index) => (
+                            <div key={index} className='twit__comment-desc'>
+                              <TwitUser>
+                                <div>
+                                  <img src={cm.profile} alt='유저' />
+                                </div>
+                                {list.creator}
+                              </TwitUser>
+                              <div>{cm.comment}</div>
                             </div>
-                            {list.creator}
-                          </TwitUser>
-                          <div>{faker.lorem.sentences()}</div>
-                        </div>
+                          ))}
 
-                        <form>
-                          <Input type='text' placeholder='댓글입력' />
+                        <form data-id={list.id} onSubmit={onCommentSubmit}>
+                          <Input
+                            type='text'
+                            placeholder='댓글입력'
+                            onChange={onComment}
+                            value={commentText}
+                          />
                           <Button
                             type='submit'
                             bgColor={color.mainBlue}
@@ -211,7 +226,7 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                   <TwitBoard>
                     <div className='twit__form-desc'>{list.twitt}</div>
                     <div className='twit__form-img'>
-                      <img src={faker.image.imageUrl()} alt='아직없음' />
+                      <img src={list.imgUrl} alt='아직없음' />
                     </div>
                     <div>
                       <div className='twit__form-btn'>
@@ -247,18 +262,26 @@ export const TwittForm = ({ hasTwitts, twitts, AuthTwitt }) => {
                       </div>
                       {/* 코멘트 누르면 보이게 */}
                       <TwitCommnet>
-                        <div className='twit__comment-desc'>
-                          <TwitUser>
-                            <div>
-                              <img src={list.profile} alt='유저' />
+                        {list.comments &&
+                          list.comments.map((cm, index) => (
+                            <div key={index} className='twit__comment-desc'>
+                              <TwitUser>
+                                <div>
+                                  <img src={cm.profile} alt='유저' />
+                                </div>
+                                {list.creator}
+                              </TwitUser>
+                              <div>{cm.comment}</div>
                             </div>
-                            {list.creator}
-                          </TwitUser>
-                          <div>{faker.lorem.sentences()}</div>
-                        </div>
+                          ))}
 
-                        <form>
-                          <Input type='text' placeholder='댓글입력' />
+                        <form data-id={list.id} onSubmit={onCommentSubmit}>
+                          <Input
+                            type='text'
+                            placeholder='댓글입력'
+                            onChange={onComment}
+                            value={commentText}
+                          />
                           <Button
                             type='submit'
                             bgColor={color.mainBlue}

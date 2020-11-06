@@ -19,15 +19,12 @@ export const Profile = () => {
   useEffect(() => {
     const getTwit = async () => {
       try {
-        await dbService
-          .collection("nweets")
-          // .limit(5)
-          .onSnapshot((snapshot) => {
-            const array = snapshot.docs.map((doc) => [
-              { ...doc.data(), id: doc.id },
-            ]);
-            dispatch(getAuthTwitt(array));
-          });
+        await dbService.collection("nweets").onSnapshot((snapshot) => {
+          const array = snapshot.docs.map((doc) => [
+            { ...doc.data(), id: doc.id },
+          ]);
+          dispatch(getAuthTwitt(array));
+        });
       } catch (err) {
         console.log(err);
       }
