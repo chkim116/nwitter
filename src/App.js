@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Profile } from "./pages/Profile";
 import { Main } from "./pages/Main";
@@ -24,6 +24,7 @@ function App() {
       try {
         await dbService
           .collection("nweets")
+          .orderBy("createAt", "asc")
           .limit(5)
           .onSnapshot((snapshot) => {
             const array = snapshot.docs.map((doc) => [

@@ -7,6 +7,7 @@ import faker from "faker/locale/ko";
 import { AiOutlineLike, AiOutlineEllipsis } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const TwitContainer = styled.div`
   width: 96%;
@@ -90,6 +91,13 @@ const TwitBoard = styled.div`
         display: none;
       }
     }
+
+    .like-length {
+      position: relative;
+      top: -4px;
+      font-size: 14px;
+      color: ${color.black};
+    }
   }
 `;
 
@@ -125,8 +133,9 @@ export const TwittForm = ({
   AuthTwitt,
   onComment,
   onCommentSubmit,
-  commentText,
+  onLike,
 }) => {
+  const user = useSelector((state) => state.auth.user);
   return (
     <>
       {hasTwitts && twitts
@@ -154,7 +163,20 @@ export const TwittForm = ({
                           />
                         </div>
                         <div className='like-btn'>
-                          <AiOutlineLike fill={color.lightenBlack} size={24} />
+                          <AiOutlineLike
+                            fill={
+                              list.likes &&
+                              list.likes.find((id) => id === user.id)
+                                ? color.mainBlue
+                                : color.lightenBlack
+                            }
+                            size={24}
+                            data-id={list.id}
+                            onClick={onLike}
+                          />
+                          <span className='like-length'>
+                            {list.likes && list.likes.length}
+                          </span>
                         </div>
                         <div className='view-btn'>
                           <AiOutlineEllipsis
@@ -197,7 +219,6 @@ export const TwittForm = ({
                             type='text'
                             placeholder='댓글입력'
                             onChange={onComment}
-                            value={commentText}
                           />
                           <Button
                             type='submit'
@@ -237,7 +258,20 @@ export const TwittForm = ({
                           />
                         </div>
                         <div className='like-btn'>
-                          <AiOutlineLike fill={color.lightenBlack} size={24} />
+                          <AiOutlineLike
+                            fill={
+                              list.likes &&
+                              list.likes.find((id) => id === user.id)
+                                ? color.mainBlue
+                                : color.lightenBlack
+                            }
+                            size={24}
+                            onClick={onLike}
+                            data-id={list.id}
+                          />
+                          <span className='like-length'>
+                            {list.likes && list.likes.length}
+                          </span>
                         </div>
                         <div className='view-btn'>
                           <AiOutlineEllipsis
@@ -280,7 +314,6 @@ export const TwittForm = ({
                             type='text'
                             placeholder='댓글입력'
                             onChange={onComment}
-                            value={commentText}
                           />
                           <Button
                             type='submit'

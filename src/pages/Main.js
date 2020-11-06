@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
 import { UserAside } from "../components/UserAside";
 import { AppContent, AppLayout } from "style/applayout";
-import { addComment, addTwitt } from "modules/twit";
+import { addComment, addLikes, addTwitt, addUnLikes } from "modules/twit";
+import { dbService } from "fbase";
 
 export const Main = () => {
   const [twitt, setTwitt] = useState("");
@@ -64,10 +65,42 @@ export const Main = () => {
     [commentText, dispatch]
   );
 
+  // like
+  const isLike = useSelector((state) => state.twit.isLike);
+
+  const onLike = useCallback(
+    (e) => {
+      const { id } = e.target.dataset;
+      const addLike = {
+        id,
+        userId: user.id,
+      };
+      const getLikes = async () => {
+        try {
+          await dbService
+            .doc(`nweets/${id}`)
+            .get()
+            .then((snapshot) => {
+              const likeArray = snapshot.data();
+              likeArray.likes.find((v) => v === user.id)
+                ? dispatch(addUnLikes(addLike))
+                : dispatch(addLikes(addLike));
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      if (id) {
+        getLikes();
+      }
+    },
+    [dispatch]
+  );
+
   return (
     <>
       <AppLayout>
-        <UserAside user={user} />
+        <UserAside />
         <AppContent>
           <TwittWritingForm
             twitt={twitt}
@@ -76,11 +109,12 @@ export const Main = () => {
           />
           {hasTwitts ? (
             <TwittForm
+              onLike={onLike}
+              isLike={isLike}
               hasTwitts={hasTwitts}
               twitts={twitts}
               onComment={onComment}
               onCommentSubmit={onCommentSubmit}
-              commentText={commentText}
             />
           ) : (
             <div>로딩 중</div>

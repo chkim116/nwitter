@@ -75,7 +75,7 @@ const AsideBlock = styled.div`
   }
 `;
 
-export const UserAside = ({ user }) => {
+export const UserAside = () => {
   const dispatch = useDispatch();
   const { id } = useSelector((state) => state.auth.user);
   const history = useHistory();

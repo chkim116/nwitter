@@ -122,9 +122,7 @@ function auth(state = initialState, action) {
         isLoading: false,
         user: {
           ...state.user,
-          twitts: action.payload
-            .map((twitt) => twitt.filter((f) => f.creatorId === state.user.id))
-            .filter((le) => le.length > 0),
+          twitts: action.payload,
         },
       };
     case GET_AUTH_TWITT_FAILURE:
