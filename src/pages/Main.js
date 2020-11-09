@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
@@ -11,7 +11,8 @@ import {
   addUnLikes,
   delTwitt,
 } from "modules/twit";
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
+import { v4 as uuidv4 } from "uuid";
 
 export const Main = () => {
   const [twitt, setTwitt] = useState("");
@@ -19,7 +20,36 @@ export const Main = () => {
   const user = useSelector((state) => state.auth.user);
   const { hasTwitts, twitts } = useSelector((state) => state.get);
 
+  // image
+  const [readImg, setReadImg] = useState("");
+  const imgInput = useRef();
+  const onInputClick = useCallback(
+    (e) => {
+      imgInput.current.click();
+    },
+    [imgInput]
+  );
+
+  const onImage = useCallback(
+    (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = (end) => {
+        const {
+          currentTarget: { result },
+        } = end;
+        setReadImg(result);
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    },
+    [readImg]
+  );
+
   // twitt
+
   const onTwittText = useCallback(
     (e) => {
       setTwitt(e.target.value);
@@ -28,8 +58,11 @@ export const Main = () => {
   );
 
   const onTwittSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
+      const fileRef = storageService.ref().child(`${user.id}/${uuidv4()}`);
+      const putImg = await fileRef.putString(readImg, "data_url");
+      const imgUrl = await putImg.ref.getDownloadURL();
       dispatch(
         addTwitt({
           twitt: twitt,
@@ -37,11 +70,13 @@ export const Main = () => {
           creatorId: user.id,
           profile: user.profile,
           createAt: new Date().toLocaleString("ko-KR"),
+          imgUrl,
         })
       );
       setTwitt("");
+      setReadImg("");
     },
-    [twitt, dispatch]
+    [twitt, readImg, dispatch]
   );
 
   // delete
@@ -113,15 +148,19 @@ export const Main = () => {
 
   return (
     <>
-      <AppLayout>
-        <UserAside />
-        <AppContent>
-          {hasTwitts ? (
+      {hasTwitts ? (
+        <AppLayout>
+          <UserAside />
+          <AppContent>
             <>
               <TwittWritingForm
                 twitt={twitt}
                 onTwittText={onTwittText}
                 onTwittSubmit={onTwittSubmit}
+                imgInput={imgInput}
+                onInputClick={onInputClick}
+                onImage={onImage}
+                readImg={readImg}
               />
               <TwittForm
                 onLike={onLike}
@@ -133,11 +172,11 @@ export const Main = () => {
                 onCommentSubmit={onCommentSubmit}
               />
             </>
-          ) : (
-            <div>로딩 중</div>
-          )}
-        </AppContent>
-      </AppLayout>
+          </AppContent>
+        </AppLayout>
+      ) : (
+        <div>로딩 중</div>
+      )}
     </>
   );
 };

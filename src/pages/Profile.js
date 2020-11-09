@@ -7,7 +7,7 @@ import { ProfileForm } from "../components/ProfileForm";
 import { AppContent, AppLayout } from "style/applayout";
 import { dbService } from "fbase";
 import { getAuthTwitt } from "modules/auth";
-import { addComment, addLikes, addUnLikes } from "modules/twit";
+import { addComment, addLikes, addUnLikes, delTwitt } from "modules/twit";
 import { UserTwittForm } from "components/UserTwittForm";
 
 export const Profile = () => {
@@ -16,6 +16,11 @@ export const Profile = () => {
 
   const { twitts } = useSelector((state) => state.auth.user);
   const { hasTwitts } = useSelector((state) => state.auth);
+
+  const onDelete = useCallback((e) => {
+    const { id } = e.target.dataset;
+    dispatch(delTwitt(id));
+  }, []);
 
   //  comment
 
@@ -99,26 +104,29 @@ export const Profile = () => {
   }, []);
 
   return (
-    <AppLayout>
-      <UserAside />
-      <AppContent>
-        {hasTwitts ? (
-          <>
-            <ProfileBanner user={user} />
-            <ProfileForm user={user} />
-            <UserTwittForm
-              twitts={twitts}
-              hasTwitts={hasTwitts}
-              onComment={onComment}
-              onCommentSubmit={onCommentSubmit}
-              onLike={onLike}
-              isLike={isLike}
-            />
-          </>
-        ) : (
-          <div>로딩</div>
-        )}
-      </AppContent>
-    </AppLayout>
+    <>
+      {hasTwitts ? (
+        <AppLayout>
+          <UserAside />
+          <AppContent>
+            <>
+              <ProfileBanner user={user} />
+              <ProfileForm user={user} />
+              <UserTwittForm
+                twitts={twitts}
+                hasTwitts={hasTwitts}
+                onComment={onComment}
+                onCommentSubmit={onCommentSubmit}
+                onLike={onLike}
+                isLike={isLike}
+                onDelete={onDelete}
+              />
+            </>
+          </AppContent>
+        </AppLayout>
+      ) : (
+        <div>로딩</div>
+      )}
+    </>
   );
 };

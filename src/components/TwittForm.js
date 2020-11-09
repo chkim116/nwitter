@@ -50,7 +50,7 @@ const TwitBoard = styled.div`
   }
 
   .twit__form-img {
-    max-width: 560px;
+    max-width: 350px;
     width: 95%;
     height: auto;
     margin: 0 auto;
@@ -74,8 +74,15 @@ const TwitBoard = styled.div`
       text-align: center;
       padding: 0.4em;
       cursor: pointer;
+      position: relative;
       &:hover {
         color: ${color.lightenBlack};
+      }
+      span {
+        position: absolute;
+        top: 12px;
+        right: -3px;
+        font-size: 12px;
       }
     }
 
@@ -85,9 +92,14 @@ const TwitBoard = styled.div`
       padding: 0.4em;
 
       .twit__form-edit {
-        top: 0;
+        top: -30px;
+        left: -15px;
         position: absolute;
         display: none;
+        width: 80px;
+        display:block button {
+          padding: 0.3em 1em;
+        }
       }
 
       &:hover .twit__form-edit {
@@ -155,12 +167,13 @@ export const TwittForm = ({
                 <TwitBoard>
                   <div className='twit__form-desc'>{list.twitt}</div>
                   <div className='twit__form-img'>
-                    <img src={list.imgUrl} alt='아직없음' />
+                    {list.imgUrl && <img src={list.imgUrl} alt='트윗이미지' />}
                   </div>
                   <div>
                     <div className='twit__form-btn'>
                       <div className='comment-btn'>
                         <FaRegCommentDots fill={color.lightenBlack} size={24} />
+                        {list.comments && <span>{list.comments.length}</span>}
                       </div>
                       <div className='like-btn'>
                         <AiOutlineLike
@@ -184,20 +197,16 @@ export const TwittForm = ({
                           size={24}
                         />
                         <div className='twit__form-edit'>
-                          <Button
-                            type='button'
-                            bgColor={color.mainBlue}
-                            color={color.white}>
-                            수정
-                          </Button>
-                          <Button
-                            data-id={list.id}
-                            type='button'
-                            bgColor={color.red}
-                            color={color.white}
-                            onClick={onDelete}>
-                            삭제
-                          </Button>
+                          {user.id === list.creatorId && (
+                            <Button
+                              data-id={list.id}
+                              type='button'
+                              bgColor={color.red}
+                              color={color.white}
+                              onClick={onDelete}>
+                              삭제
+                            </Button>
+                          )}
                         </div>
                       </div>
                     </div>

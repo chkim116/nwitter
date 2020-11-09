@@ -59,10 +59,30 @@ const TwitWritingBlock = styled.form`
     font-size: 12px;
     margin-top: 6px;
     justify-content: space-between;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  img {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0.2px 0.2px 3px 1.5px ${color.borderColor};
   }
 `;
 
-export const TwittWritingForm = ({ twitt, onTwittText, onTwittSubmit }) => {
+export const TwittWritingForm = ({
+  twitt,
+  onTwittText,
+  onTwittSubmit,
+  imgInput,
+  onInputClick,
+  onImage,
+  readImg,
+}) => {
   const user = useSelector((state) => state.auth.user);
   return (
     <TwitContainer>
@@ -78,10 +98,21 @@ export const TwittWritingForm = ({ twitt, onTwittText, onTwittSubmit }) => {
             type='text'
             placeholder='트윗 입력'
           />
+          {readImg && <img src={readImg} alt='미리보기 사진' />}
           <div>
             <div className='twit__box-submit'>
-              <input type='file' accept='image/*' hidden />
-              <BiImageAlt fill={color.mainBlue} size={24} />
+              <input
+                type='file'
+                accept='image/* '
+                onChange={onImage}
+                hidden
+                ref={imgInput}
+              />
+              <BiImageAlt
+                fill={color.mainBlue}
+                onClick={onInputClick}
+                size={24}
+              />
               <Button
                 bgColor={color.mainBlue}
                 color={color.white}
