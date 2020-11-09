@@ -38,13 +38,13 @@ const BannerContainer = styled.div`
   }
 `;
 
-export const ProfileBanner = () => {
+export const ProfileBanner = ({ user }) => {
   return (
     <BannerContainer>
       <div className='user__profile-banner'>
         <img src={faker.image.imageUrl()} alt='배너' />
         <div className='user__profile-img'>
-          <img src={faker.image.imageUrl()} alt='프로필사진' />
+          <img src={user.profile} alt='프로필사진' />
         </div>
       </div>
     </BannerContainer>

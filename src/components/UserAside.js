@@ -77,7 +77,7 @@ const AsideBlock = styled.div`
 
 export const UserAside = () => {
   const dispatch = useDispatch();
-  const { id } = useSelector((state) => state.auth.user);
+  const { id, username } = useSelector((state) => state.auth.user);
   const history = useHistory();
 
   const onMove = useCallback((e) => {
@@ -108,15 +108,10 @@ export const UserAside = () => {
           <li onClick={onMove}>
             <Link to={`/user/${id}`}>
               <ImProfile size={24} className='link-icon' />
-              Profile
+              {username}의 Profile
             </Link>
           </li>
-          <li onClick={onMove}>
-            <Link to={`/user/${id}/likes`}>
-              <CgList size={24} className='link-icon' />
-              Like Lists
-            </Link>
-          </li>
+
           <Button
             bgColor={color.mainBlue}
             color={color.white}

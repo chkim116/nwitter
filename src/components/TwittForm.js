@@ -87,8 +87,11 @@ const TwitBoard = styled.div`
       .twit__form-edit {
         top: 0;
         position: absolute;
-        display: flex;
         display: none;
+      }
+
+      &:hover .twit__form-edit {
+        display: flex;
       }
     }
 
@@ -130,205 +133,112 @@ const TwitCommnet = styled.div`
 export const TwittForm = ({
   hasTwitts,
   twitts,
-  AuthTwitt,
   onComment,
   onCommentSubmit,
   onLike,
+  onDelete,
 }) => {
   const user = useSelector((state) => state.auth.user);
   return (
     <>
-      {hasTwitts && twitts
-        ? twitts.map((twitt) =>
-            twitt.map((list) => (
-              <TwitContainer key={list.id}>
-                <div className='twit__form'>
-                  <TwitUser>
-                    <div>
-                      <img src={list.profile} alt='유저' />
-                    </div>
-                    {list.creator}
-                  </TwitUser>
-                  <TwitBoard>
-                    <div className='twit__form-desc'>{list.twitt}</div>
-                    <div className='twit__form-img'>
-                      <img src={list.imgUrl} alt='아직없음' />
-                    </div>
-                    <div>
-                      <div className='twit__form-btn'>
-                        <div className='comment-btn'>
-                          <FaRegCommentDots
-                            fill={color.lightenBlack}
-                            size={24}
-                          />
-                        </div>
-                        <div className='like-btn'>
-                          <AiOutlineLike
-                            fill={
-                              list.likes &&
-                              list.likes.find((id) => id === user.id)
-                                ? color.mainBlue
-                                : color.lightenBlack
-                            }
-                            size={24}
-                            data-id={list.id}
-                            onClick={onLike}
-                          />
-                          <span className='like-length'>
-                            {list.likes && list.likes.length}
-                          </span>
-                        </div>
-                        <div className='view-btn'>
-                          <AiOutlineEllipsis
-                            fill={color.lightenBlack}
-                            size={24}
-                          />
-                          <div className='twit__form-edit'>
-                            <Button
-                              type='button'
-                              bgColor={color.mainBlue}
-                              color={color.white}>
-                              수정
-                            </Button>
-                            <Button
-                              type='button'
-                              bgColor={color.red}
-                              color={color.white}>
-                              삭제
-                            </Button>
-                          </div>
-                        </div>
+      {hasTwitts && twitts ? (
+        twitts.map((twitt) =>
+          twitt.map((list) => (
+            <TwitContainer key={list.id}>
+              <div className='twit__form'>
+                <TwitUser>
+                  <div>
+                    <img src={list.profile} alt='유저' />
+                  </div>
+                  {list.creator}
+                </TwitUser>
+                <TwitBoard>
+                  <div className='twit__form-desc'>{list.twitt}</div>
+                  <div className='twit__form-img'>
+                    <img src={list.imgUrl} alt='아직없음' />
+                  </div>
+                  <div>
+                    <div className='twit__form-btn'>
+                      <div className='comment-btn'>
+                        <FaRegCommentDots fill={color.lightenBlack} size={24} />
                       </div>
-                      {/* 코멘트 누르면 보이게 */}
-                      <TwitCommnet>
-                        {list.comments &&
-                          list.comments.map((cm, index) => (
-                            <div key={index} className='twit__comment-desc'>
-                              <TwitUser>
-                                <div>
-                                  <img src={cm.profile} alt='유저' />
-                                </div>
-                                {list.creator}
-                              </TwitUser>
-                              <div>{cm.comment}</div>
-                            </div>
-                          ))}
-
-                        <form data-id={list.id} onSubmit={onCommentSubmit}>
-                          <Input
-                            type='text'
-                            placeholder='댓글입력'
-                            onChange={onComment}
-                          />
+                      <div className='like-btn'>
+                        <AiOutlineLike
+                          fill={
+                            list.likes &&
+                            list.likes.find((id) => id === user.id)
+                              ? color.mainBlue
+                              : color.lightenBlack
+                          }
+                          size={24}
+                          data-id={list.id}
+                          onClick={onLike}
+                        />
+                        <span className='like-length'>
+                          {list.likes && list.likes.length}
+                        </span>
+                      </div>
+                      <div className='view-btn'>
+                        <AiOutlineEllipsis
+                          fill={color.lightenBlack}
+                          size={24}
+                        />
+                        <div className='twit__form-edit'>
                           <Button
-                            type='submit'
+                            type='button'
                             bgColor={color.mainBlue}
                             color={color.white}>
-                            Comment
+                            수정
                           </Button>
-                        </form>
-                      </TwitCommnet>
-                    </div>
-                  </TwitBoard>
-                </div>
-              </TwitContainer>
-            ))
-          )
-        : AuthTwitt.map((twitt) =>
-            twitt.map((list) => (
-              <TwitContainer key={list.id}>
-                <div className='twit__form'>
-                  <TwitUser>
-                    <div>
-                      <img src={list.profile} alt='유저' />
-                    </div>
-                    {list.creator}
-                  </TwitUser>
-                  <TwitBoard>
-                    <div className='twit__form-desc'>{list.twitt}</div>
-                    <div className='twit__form-img'>
-                      <img src={list.imgUrl} alt='아직없음' />
-                    </div>
-                    <div>
-                      <div className='twit__form-btn'>
-                        <div className='comment-btn'>
-                          <FaRegCommentDots
-                            fill={color.lightenBlack}
-                            size={24}
-                          />
-                        </div>
-                        <div className='like-btn'>
-                          <AiOutlineLike
-                            fill={
-                              list.likes &&
-                              list.likes.find((id) => id === user.id)
-                                ? color.mainBlue
-                                : color.lightenBlack
-                            }
-                            size={24}
-                            onClick={onLike}
+                          <Button
                             data-id={list.id}
-                          />
-                          <span className='like-length'>
-                            {list.likes && list.likes.length}
-                          </span>
-                        </div>
-                        <div className='view-btn'>
-                          <AiOutlineEllipsis
-                            fill={color.lightenBlack}
-                            size={24}
-                          />
-                          <div className='twit__form-edit'>
-                            <Button
-                              type='button'
-                              bgColor={color.mainBlue}
-                              color={color.white}>
-                              수정
-                            </Button>
-                            <Button
-                              type='button'
-                              bgColor={color.red}
-                              color={color.white}>
-                              삭제
-                            </Button>
-                          </div>
+                            type='button'
+                            bgColor={color.red}
+                            color={color.white}
+                            onClick={onDelete}>
+                            삭제
+                          </Button>
                         </div>
                       </div>
-                      {/* 코멘트 누르면 보이게 */}
-                      <TwitCommnet>
-                        {list.comments &&
-                          list.comments.map((cm, index) => (
-                            <div key={index} className='twit__comment-desc'>
-                              <TwitUser>
-                                <div>
-                                  <img src={cm.profile} alt='유저' />
-                                </div>
-                                {list.creator}
-                              </TwitUser>
-                              <div>{cm.comment}</div>
-                            </div>
-                          ))}
-
-                        <form data-id={list.id} onSubmit={onCommentSubmit}>
-                          <Input
-                            type='text'
-                            placeholder='댓글입력'
-                            onChange={onComment}
-                          />
-                          <Button
-                            type='submit'
-                            bgColor={color.mainBlue}
-                            color={color.white}>
-                            Comment
-                          </Button>
-                        </form>
-                      </TwitCommnet>
                     </div>
-                  </TwitBoard>
-                </div>
-              </TwitContainer>
-            ))
-          )}
+                    {/* 코멘트 누르면 보이게 */}
+                    <TwitCommnet>
+                      {list.comments &&
+                        list.comments.map((cm, index) => (
+                          <div key={index} className='twit__comment-desc'>
+                            <TwitUser>
+                              <div>
+                                <img src={cm.profile} alt='유저' />
+                              </div>
+                              {list.creator}
+                            </TwitUser>
+                            <div>{cm.comment}</div>
+                          </div>
+                        ))}
+
+                      <form data-id={list.id} onSubmit={onCommentSubmit}>
+                        <Input
+                          type='text'
+                          placeholder='댓글입력'
+                          onChange={onComment}
+                        />
+                        <Button
+                          type='submit'
+                          bgColor={color.mainBlue}
+                          color={color.white}>
+                          Comment
+                        </Button>
+                      </form>
+                    </TwitCommnet>
+                  </div>
+                </TwitBoard>
+              </div>
+            </TwitContainer>
+          ))
+        )
+      ) : (
+        <div>로딩</div>
+      )}
     </>
   );
 };

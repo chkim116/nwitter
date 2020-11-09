@@ -1,6 +1,12 @@
+import userprofile from "../assets/images/userprofile.png";
+
 export const ADD_TWITT_REQUEST = "twit/ADD_TWITT_REQUEST";
 export const ADD_TWITT_SUCCESS = "twit/ADD_TWITT_SUCCESS";
 export const ADD_TWITT_FAILURE = "twit/ADD_TWITT_FAILURE";
+
+export const DEL_TWITT_REQUEST = "twit/DEL_TWITT_REQUEST";
+export const DEL_TWITT_SUCCESS = "twit/DEL_TWITT_SUCCESS";
+export const DEL_TWITT_FAILURE = "twit/DEL_TWITT_FAILURE";
 
 export const ADD_COMMENT_REQUEST = "twit/ADD_COMMENT_REQUEST";
 export const ADD_COMMENT_SUCCESS = "twit/ADD_COMMENT_SUCCESS";
@@ -15,6 +21,7 @@ export const ADD_UNLIKES_SUCCESS = "twit/ADD_UNLIKES_SUCCESS";
 export const ADD_UNLIKES_FAILURE = "twit/ADD_UNLIKES_FAILURE";
 
 const initialState = {
+  delLoading: false,
   isLoading: false,
   isDone: false,
   isLike: false,
@@ -25,6 +32,7 @@ const initialState = {
     creator: "",
     creatorId: "",
     createAt: "",
+    profile: "",
     imgUrl: "",
     comments: [],
     likes: [],
@@ -41,6 +49,11 @@ const initialState = {
 export const addTwitt = (twitt) => ({
   type: ADD_TWITT_REQUEST,
   payload: twitt,
+});
+
+export const delTwitt = (id) => ({
+  type: DEL_TWITT_REQUEST,
+  payload: id,
 });
 
 export const addComment = (comment) => ({
@@ -72,7 +85,10 @@ function twit(state = initialState, action) {
           creator: action.payload.creator,
           createAt: action.payload.createAt,
           creatorId: action.payload.creatorId,
-          imgUrl: action.payload.imgUrl,
+          profile: action.payload.profile
+            ? action.payload.profile
+            : userprofile,
+          imgUrl: action.payload.imgUrl || "",
           id: action.payload.id,
           comments: [],
           likes: [],
@@ -91,6 +107,24 @@ function twit(state = initialState, action) {
         error: action.payload,
       };
 
+    case DEL_TWITT_REQUEST:
+      return {
+        ...state,
+        delLoading: false,
+        error: null,
+      };
+    case DEL_TWITT_SUCCESS:
+      return {
+        ...state,
+        delLoading: true,
+      };
+    case DEL_TWITT_FAILURE:
+      return {
+        ...state,
+        delLoading: false,
+        error: action.payload,
+      };
+
     case ADD_COMMENT_REQUEST:
       return {
         ...state,
@@ -103,7 +137,9 @@ function twit(state = initialState, action) {
           creatorId: action.payload.id,
           comment: action.payload.comment,
           createAt: new Date().toLocaleString("ko-KR"),
-          profile: action.payload.profile,
+          profile: action.payload.profile
+            ? action.payload.profile
+            : userprofile,
         },
       };
     case ADD_COMMENT_SUCCESS:

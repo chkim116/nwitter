@@ -4,7 +4,13 @@ import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
 import { UserAside } from "../components/UserAside";
 import { AppContent, AppLayout } from "style/applayout";
-import { addComment, addLikes, addTwitt, addUnLikes } from "modules/twit";
+import {
+  addComment,
+  addLikes,
+  addTwitt,
+  addUnLikes,
+  delTwitt,
+} from "modules/twit";
 import { dbService } from "fbase";
 
 export const Main = () => {
@@ -13,6 +19,7 @@ export const Main = () => {
   const user = useSelector((state) => state.auth.user);
   const { hasTwitts, twitts } = useSelector((state) => state.get);
 
+  // twitt
   const onTwittText = useCallback(
     (e) => {
       setTwitt(e.target.value);
@@ -28,7 +35,7 @@ export const Main = () => {
           twitt: twitt,
           creator: user.username,
           creatorId: user.id,
-          imgUrl: user.imgUrl || "",
+          profile: user.profile,
           createAt: new Date().toLocaleString("ko-KR"),
         })
       );
@@ -36,6 +43,13 @@ export const Main = () => {
     },
     [twitt, dispatch]
   );
+
+  // delete
+
+  const onDelete = useCallback((e) => {
+    const { id } = e.target.dataset;
+    dispatch(delTwitt(id));
+  }, []);
 
   //  comment
 
@@ -56,7 +70,7 @@ export const Main = () => {
         id,
         creator: user.username,
         creatorId: user.id,
-        profile: user.imgUrl || "",
+        profile: user.profile,
         createAt: new Date().toLocaleString("ko-KR"),
       };
       dispatch(addComment(comment));
@@ -82,7 +96,7 @@ export const Main = () => {
             .get()
             .then((snapshot) => {
               const likeArray = snapshot.data();
-              likeArray.likes.find((v) => v === user.id)
+              likeArray.likes && likeArray.likes.find((v) => v === user.id)
                 ? dispatch(addUnLikes(addLike))
                 : dispatch(addLikes(addLike));
             });
@@ -102,20 +116,23 @@ export const Main = () => {
       <AppLayout>
         <UserAside />
         <AppContent>
-          <TwittWritingForm
-            twitt={twitt}
-            onTwittText={onTwittText}
-            onTwittSubmit={onTwittSubmit}
-          />
           {hasTwitts ? (
-            <TwittForm
-              onLike={onLike}
-              isLike={isLike}
-              hasTwitts={hasTwitts}
-              twitts={twitts}
-              onComment={onComment}
-              onCommentSubmit={onCommentSubmit}
-            />
+            <>
+              <TwittWritingForm
+                twitt={twitt}
+                onTwittText={onTwittText}
+                onTwittSubmit={onTwittSubmit}
+              />
+              <TwittForm
+                onLike={onLike}
+                isLike={isLike}
+                hasTwitts={hasTwitts}
+                twitts={twitts}
+                onDelete={onDelete}
+                onComment={onComment}
+                onCommentSubmit={onCommentSubmit}
+              />
+            </>
           ) : (
             <div>로딩 중</div>
           )}

@@ -14,8 +14,11 @@ function App() {
 
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
-      if (user) dispatch(getAuth(user));
-      else return;
+      if (user) {
+        dispatch(getAuth(user));
+      } else {
+        return;
+      }
     });
   }, []);
 
@@ -24,7 +27,7 @@ function App() {
       try {
         await dbService
           .collection("nweets")
-          .orderBy("createAt", "asc")
+          .orderBy("createAt", "desc")
           .limit(5)
           .onSnapshot((snapshot) => {
             const array = snapshot.docs.map((doc) => [

@@ -3,20 +3,19 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProfileBanner } from "../components/ProfileBanner";
 import { ProfileForm } from "../components/ProfileForm";
-import { TwittForm } from "../components/TwittForm";
 
-import firebase from "firebase/app";
 import { AppContent, AppLayout } from "style/applayout";
 import { dbService } from "fbase";
 import { getAuthTwitt } from "modules/auth";
 import { addComment, addLikes, addUnLikes } from "modules/twit";
+import { UserTwittForm } from "components/UserTwittForm";
 
 export const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const { hasTwitts } = useSelector((state) => state.get);
-  const { twitts: AuthTwitt } = useSelector((state) => state.auth.user);
-  const { hasTwitts: userTwitts } = useSelector((state) => state.auth);
+
+  const { twitts } = useSelector((state) => state.auth.user);
+  const { hasTwitts } = useSelector((state) => state.auth);
 
   //  comment
 
@@ -37,7 +36,7 @@ export const Profile = () => {
         id,
         creator: user.username,
         creatorId: user.id,
-        profile: user.imgUrl || "",
+        profile: user.imgUrl,
         createAt: new Date().toLocaleString("ko-KR"),
       };
       dispatch(addComment(comment));
@@ -48,7 +47,7 @@ export const Profile = () => {
 
   // like
   const isLike = useSelector((state) => state.twit.isLike);
-  const twitt = useSelector((state) => state.get.twitts);
+
   const onLike = useCallback(
     (e) => {
       const { id } = e.target.dataset;
@@ -63,7 +62,7 @@ export const Profile = () => {
             .get()
             .then((snapshot) => {
               const likeArray = snapshot.data();
-              likeArray.likes.find((v) => v === user.id)
+              likeArray.likes && likeArray.likes.find((v) => v === user.id)
                 ? dispatch(addUnLikes(addLike))
                 : dispatch(addLikes(addLike));
             });
@@ -81,26 +80,21 @@ export const Profile = () => {
   useEffect(() => {
     const getTwit = async () => {
       try {
-        if (user.id !== null && user.id !== undefined) {
-          await dbService
-            .collection("nweets")
-            .where("creatorId", "==", user.id)
-            .orderBy("createAt", "asc")
-            .limit(5)
-            .onSnapshot((snapshot) => {
-              const array = snapshot.docs.map((doc) => [
-                { id: doc.id, ...doc.data() },
-              ]);
-              dispatch(getAuthTwitt(array));
-            });
-        }
+        await dbService
+          .collection("nweets")
+          .where("creatorId", "==", user.id)
+          .orderBy("createAt", "desc")
+          .limit(5)
+          .onSnapshot((snapshot) => {
+            const array = snapshot.docs.map((doc) => [
+              { id: doc.id, ...doc.data() },
+            ]);
+            dispatch(getAuthTwitt(array));
+          });
       } catch (err) {
         console.log(err);
       }
     };
-    if (userTwitts) {
-      return console.log("이미 불러옴");
-    }
     getTwit();
   }, []);
 
@@ -108,16 +102,19 @@ export const Profile = () => {
     <AppLayout>
       <UserAside />
       <AppContent>
-        <ProfileBanner />
-        <ProfileForm user={user} />
         {hasTwitts ? (
-          <TwittForm
-            AuthTwitt={AuthTwitt}
-            onComment={onComment}
-            onCommentSubmit={onCommentSubmit}
-            onLike={onLike}
-            isLike={isLike}
-          />
+          <>
+            <ProfileBanner user={user} />
+            <ProfileForm user={user} />
+            <UserTwittForm
+              twitts={twitts}
+              hasTwitts={hasTwitts}
+              onComment={onComment}
+              onCommentSubmit={onCommentSubmit}
+              onLike={onLike}
+              isLike={isLike}
+            />
+          </>
         ) : (
           <div>로딩</div>
         )}

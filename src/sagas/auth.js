@@ -11,14 +11,13 @@ import {
 
 function* logIn(action) {
   try {
-    const data = yield call(
+    yield call(
       [authService, authService.signInWithEmailAndPassword],
       action.payload.email,
       action.payload.password
     );
     yield put({
       type: LOGIN_SUBMIT_SUCCESS,
-      payload: data,
     });
   } catch (err) {
     console.log(err);

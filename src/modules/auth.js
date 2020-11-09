@@ -1,3 +1,5 @@
+import userprofile from "../assets/images/userprofile.png";
+
 export const LOGIN_SUBMIT_REQUSET = "auth/LOGIN_SUBMIT_REQUSET";
 export const LOGIN_SUBMIT_SUCCESS = "auth/LOGIN_SUBMIT_SUCCESS";
 export const LOGIN_SUBMIT_FAILURE = "auth/LOGIN_SUBMIT_FAILURE";
@@ -60,15 +62,6 @@ function auth(state = initialState, action) {
         isLogin: true,
         isLoading: false,
         error: "",
-        user: {
-          ...state.user,
-          email: action.payload.user.email,
-          id: action.payload.user.uid,
-          username:
-            action.payload.user.displayName ||
-            action.payload.user.email.split("@")[0],
-          profile: action.payload.user.photoUrl || "",
-        },
       };
     case LOGIN_SUBMIT_FAILURE:
       return {
@@ -105,7 +98,9 @@ function auth(state = initialState, action) {
           id: action.payload.uid,
           username:
             action.payload.displayName || action.payload.email.split("@")[0],
-          profile: action.payload.photoUrl || "",
+          profile: action.payload.photoUrl
+            ? action.payload.photoUrl
+            : userprofile,
         },
       };
 

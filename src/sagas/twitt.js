@@ -23,11 +23,25 @@ import {
   ADD_UNLIKES_FAILURE,
   ADD_UNLIKES_REQUEST,
   ADD_UNLIKES_SUCCESS,
+  DEL_TWITT_FAILURE,
+  DEL_TWITT_REQUEST,
+  DEL_TWITT_SUCCESS,
 } from "modules/twit";
-import { all, call, fork, put, takeLatest } from "redux-saga/effects";
+import {
+  all,
+  call,
+  fork,
+  put,
+  takeEvery,
+  takeLatest,
+} from "redux-saga/effects";
 
 const postTwitt = (data) => {
   return dbService.collection("nweets").add({ ...data });
+};
+
+const deleteTwitt = (id) => {
+  return dbService.collection("nweets").doc(id).delete();
 };
 
 const addCommentWithTwitt = (comment) => {
@@ -62,7 +76,22 @@ function* addTwitt(action) {
   } catch (err) {
     yield put({
       type: ADD_TWITT_FAILURE,
-      payload: err,
+      payload: err.message,
+    });
+  }
+}
+
+function* delTwitt(action) {
+  try {
+    yield call(deleteTwitt, action.payload);
+    yield put({
+      type: DEL_TWITT_SUCCESS,
+    });
+  } catch (err) {
+    console.log(err.message);
+    yield put({
+      type: DEL_TWITT_FAILURE,
+      payload: err.message,
     });
   }
 }
@@ -77,7 +106,7 @@ function* getTwitt(action) {
     console.log(err);
     yield put({
       type: GET_TWITT_FAILURE,
-      payload: err,
+      payload: err.message,
     });
   }
 }
@@ -92,7 +121,7 @@ function* getAuthTwitt(action) {
     console.log(err);
     yield put({
       type: GET_AUTH_TWITT_FAILURE,
-      payload: err,
+      payload: err.message,
     });
   }
 }
@@ -106,7 +135,7 @@ function* addComment(action) {
   } catch (err) {
     yield put({
       type: ADD_COMMENT_FAILURE,
-      payload: err,
+      payload: err.message,
     });
   }
 }
@@ -121,7 +150,7 @@ function* addLike(action) {
     console.log(err);
     yield put({
       type: ADD_LIKES_FAILURE,
-      payload: err,
+      payload: err.message,
     });
   }
 }
@@ -136,13 +165,17 @@ function* addUnLike(action) {
     console.log(err);
     yield put({
       type: ADD_UNLIKES_FAILURE,
-      payload: err,
+      payload: err.message,
     });
   }
 }
 
 function* watchTwitt() {
   yield takeLatest(ADD_TWITT_REQUEST, addTwitt);
+}
+
+function* watchDelTwitt() {
+  yield takeLatest(DEL_TWITT_REQUEST, delTwitt);
 }
 
 function* watchGetTwitt() {
@@ -158,11 +191,11 @@ function* watchGetAuthTwitt() {
 }
 
 function* watchAddLikes() {
-  yield takeLatest(ADD_LIKES_REQUEST, addLike);
+  yield takeEvery(ADD_LIKES_REQUEST, addLike);
 }
 
 function* watchAddUnLikes() {
-  yield takeLatest(ADD_UNLIKES_REQUEST, addUnLike);
+  yield takeEvery(ADD_UNLIKES_REQUEST, addUnLike);
 }
 
 export default function* twitSaga() {
@@ -173,5 +206,6 @@ export default function* twitSaga() {
     fork(watchGetAuthTwitt),
     fork(watchAddLikes),
     fork(watchAddUnLikes),
+    fork(watchDelTwitt),
   ]);
 }
