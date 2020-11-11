@@ -15,121 +15,122 @@ export const GET_AUTH_TWITT_FAILURE = "auth/GET_AUTH_TWITT_FAILURE";
 export const GET_AUTH = "auth/GET_AUTH";
 
 const initialState = {
-  login: { email: "", password: "" },
-  isLogin: false,
-  isLoading: false,
-  hasTwitts: false,
-  error: "",
-  user: {
-    id: "",
-    email: "",
-    username: "",
-    profile: "",
-    twitts: [],
-    like: [],
-  },
+    login: { email: "", password: "" },
+    isLogin: false,
+    isLoading: false,
+    hasTwitts: false,
+    error: "",
+    user: {
+        id: "",
+        email: "",
+        username: "",
+        profile: "",
+        twitts: [],
+        like: [],
+    },
 };
 
 export const loginSubmit = (value) => ({
-  type: LOGIN_SUBMIT_REQUSET,
-  payload: { email: value.email, password: value.password },
+    type: LOGIN_SUBMIT_REQUSET,
+    payload: { email: value.email, password: value.password },
 });
 
 export const logOut = () => ({
-  type: LOGOUT_REQUSET,
+    type: LOGOUT_REQUSET,
 });
 
 export const getAuth = (user) => ({
-  type: GET_AUTH,
-  payload: user,
+    type: GET_AUTH,
+    payload: user,
 });
 
 export const getAuthTwitt = (twitts) => ({
-  type: GET_AUTH_TWITT_REQUEST,
-  payload: twitts,
+    type: GET_AUTH_TWITT_REQUEST,
+    payload: twitts,
 });
 
 function auth(state = initialState, action) {
-  switch (action.type) {
-    case LOGIN_SUBMIT_REQUSET:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case LOGIN_SUBMIT_SUCCESS:
-      return {
-        ...state,
-        isLogin: true,
-        isLoading: false,
-        error: "",
-      };
-    case LOGIN_SUBMIT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload,
-      };
+    switch (action.type) {
+        case LOGIN_SUBMIT_REQUSET:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case LOGIN_SUBMIT_SUCCESS:
+            return {
+                ...state,
+                isLogin: true,
+                isLoading: false,
+                error: "",
+            };
+        case LOGIN_SUBMIT_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
+            };
 
-    case LOGOUT_REQUSET:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        isLogin: false,
-        user: action.payload,
-      };
-    case LOGOUT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-      };
+        case LOGOUT_REQUSET:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                isLogin: false,
+                user: action.payload,
+            };
+        case LOGOUT_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+            };
 
-    case GET_AUTH:
-      return {
-        ...state,
-        isLogin: true,
-        user: {
-          ...state.user,
-          email: action.payload.email,
-          id: action.payload.uid,
-          username:
-            action.payload.displayName || action.payload.email.split("@")[0],
-          profile: action.payload.photoUrl
-            ? action.payload.photoUrl
-            : userprofile,
-        },
-      };
+        case GET_AUTH:
+            return {
+                ...state,
+                isLogin: true,
+                user: {
+                    ...state.user,
+                    email: action.payload.email,
+                    id: action.payload.uid,
+                    username:
+                        action.payload.displayName ||
+                        action.payload.email.split("@")[0],
+                    profile: action.payload.photoUrl
+                        ? action.payload.photoUrl
+                        : userprofile,
+                },
+            };
 
-    case GET_AUTH_TWITT_REQUEST:
-      return {
-        ...state,
-        hasTwitts: false,
-        isLoading: true,
-      };
-    case GET_AUTH_TWITT_SUCCESS:
-      return {
-        ...state,
-        hasTwitts: true,
-        isLoading: false,
-        user: {
-          ...state.user,
-          twitts: action.payload,
-        },
-      };
-    case GET_AUTH_TWITT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload,
-      };
+        case GET_AUTH_TWITT_REQUEST:
+            return {
+                ...state,
+                hasTwitts: false,
+                isLoading: true,
+            };
+        case GET_AUTH_TWITT_SUCCESS:
+            return {
+                ...state,
+                hasTwitts: true,
+                isLoading: false,
+                user: {
+                    ...state.user,
+                    twitts: action.payload,
+                },
+            };
+        case GET_AUTH_TWITT_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
+            };
 
-    default:
-      return state;
-  }
+        default:
+            return state;
+    }
 }
 
 export default auth;

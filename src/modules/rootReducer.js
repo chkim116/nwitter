@@ -5,10 +5,10 @@ import signUp from "./signup";
 import get from "./get";
 
 const rootReducer = combineReducers({
-  auth,
-  twit,
-  signUp,
-  get,
+    auth,
+    twit,
+    signUp,
+    get,
 });
 
 export default rootReducer;
