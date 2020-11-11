@@ -15,7 +15,6 @@ export const GET_AUTH_TWITT_FAILURE = "auth/GET_AUTH_TWITT_FAILURE";
 export const GET_AUTH = "auth/GET_AUTH";
 
 const initialState = {
-    login: { email: "", password: "" },
     isLogin: false,
     isLoading: false,
     hasTwitts: false,
@@ -26,7 +25,6 @@ const initialState = {
         username: "",
         profile: "",
         twitts: [],
-        like: [],
     },
 };
 
@@ -99,9 +97,7 @@ function auth(state = initialState, action) {
                     username:
                         action.payload.displayName ||
                         action.payload.email.split("@")[0],
-                    profile: action.payload.photoUrl
-                        ? action.payload.photoUrl
-                        : userprofile,
+                    profile: userprofile,
                 },
             };
 

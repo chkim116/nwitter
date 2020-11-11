@@ -59,6 +59,8 @@ export const AuthForm = ({
     onSign,
     onSignInSubmit,
     onSignUpSubmit,
+    signUpError,
+    signInError,
 }) => {
     return (
         <AuthContainer>
@@ -67,6 +69,8 @@ export const AuthForm = ({
             </div>
             <AuthFormBlock>
                 {doSignUp ? <h2>가입</h2> : <h2>로그인</h2>}
+                {signInError ? `${signInError}` : <> </>}
+                {signUpError ? `${signUpError}` : <> </>}
                 <form
                     onChange={onSign}
                     onSubmit={doSignUp ? onSignUpSubmit : onSignInSubmit}>

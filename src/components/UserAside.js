@@ -5,7 +5,6 @@ import color from "style/color";
 import { Button } from "style/button";
 
 import { GoHome } from "react-icons/go";
-import { CgList } from "react-icons/cg";
 import { ImProfile } from "react-icons/im";
 import styled from "styled-components";
 import { logOut } from "modules/auth";

@@ -1,5 +1,3 @@
-import userprofile from "../assets/images/userprofile.png";
-
 export const ADD_TWITT_REQUEST = "twit/ADD_TWITT_REQUEST";
 export const ADD_TWITT_SUCCESS = "twit/ADD_TWITT_SUCCESS";
 export const ADD_TWITT_FAILURE = "twit/ADD_TWITT_FAILURE";
@@ -26,24 +24,6 @@ const initialState = {
     isDone: false,
     isLike: false,
     error: null,
-    twitt: {
-        id: "",
-        twitt: "",
-        creator: "",
-        creatorId: "",
-        createAt: "",
-        profile: "",
-        imgUrl: "",
-        comments: [],
-        likes: [],
-    },
-    comment: {
-        comment: "",
-        id: "",
-        creator: "",
-        creatorId: "",
-        createAt: "",
-    },
 };
 
 export const addTwitt = (twitt) => ({

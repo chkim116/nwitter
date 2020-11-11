@@ -4,15 +4,10 @@ import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
 import { UserAside } from "../components/UserAside";
 import { AppContent, AppLayout } from "style/applayout";
-import {
-    addComment,
-    addLikes,
-    addTwitt,
-    addUnLikes,
-    delTwitt,
-} from "modules/twit";
-import { dbService, storageService } from "fbase";
+import { addTwitt } from "modules/twit";
+import { storageService } from "fbase";
 import { v4 as uuidv4 } from "uuid";
+import { useComment, useDelete, useLike } from "hook";
 
 export const Main = () => {
     const [twitt, setTwitt] = useState("");
@@ -23,27 +18,28 @@ export const Main = () => {
     // image
     const [readImg, setReadImg] = useState("");
     const imgInput = useRef();
-    const onInputClick = useCallback(
-        (e) => {
-            imgInput.current.click();
-        },
-        [imgInput]
-    );
+    const onInputClick = useCallback((e) => {
+        imgInput.current.click();
+    }, []);
 
-    const onImage = useCallback(
-        (e) => {
-            const file = e.target.files[0];
-            const reader = new FileReader();
+    const onImage = useCallback((e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
 
-            reader.onloadend = (end) => {
-                const {
-                    currentTarget: { result },
-                } = end;
-                setReadImg(result);
-            };
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+        reader.onloadend = (end) => {
+            const {
+                currentTarget: { result },
+            } = end;
+            setReadImg(result);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }, []);
+
+    const onImageDelete = useCallback(
+        (e) => {
+            setReadImg("");
         },
         [readImg]
     );
@@ -73,7 +69,7 @@ export const Main = () => {
                         creator: user.username,
                         creatorId: user.id,
                         profile: user.profile,
-                        createAt: new Date().toLocaleString("ko-KR"),
+                        createAt: Date.now(),
                         imgUrl,
                     })
                 );
@@ -85,7 +81,7 @@ export const Main = () => {
                         creator: user.username,
                         creatorId: user.id,
                         profile: user.profile,
-                        createAt: new Date().toLocaleString("ko-KR"),
+                        createAt: Date.now(),
                     })
                 );
             }
@@ -96,80 +92,25 @@ export const Main = () => {
 
     // delete
 
-    const onDelete = useCallback((e) => {
-        const { id } = e.target.dataset;
-        dispatch(delTwitt(id));
-    }, []);
+    const onDelete = useDelete();
 
     //  comment
 
-    const [commentText, setCommentText] = useState("");
-    const onComment = useCallback(
-        (e) => {
-            setCommentText(e.target.value);
-        },
-        [commentText]
-    );
-
-    const onCommentSubmit = useCallback(
-        (e) => {
-            e.preventDefault();
-            const { id } = e.target.dataset;
-            const comment = {
-                comment: commentText,
-                id,
-                creator: user.username,
-                creatorId: user.id,
-                profile: user.profile,
-                createAt: new Date().toLocaleString("ko-KR"),
-            };
-            dispatch(addComment(comment));
-            setCommentText("");
-        },
-        [commentText, dispatch]
-    );
+    const { onComment, onCommentSubmit } = useComment();
 
     // like
-    const isLike = useSelector((state) => state.twit.isLike);
 
-    const onLike = useCallback(
-        (e) => {
-            const { id } = e.target.dataset;
-            const addLike = {
-                id,
-                userId: user.id,
-            };
-            const getLikes = async () => {
-                try {
-                    await dbService
-                        .doc(`nweets/${id}`)
-                        .get()
-                        .then((snapshot) => {
-                            const likeArray = snapshot.data();
-                            likeArray.likes &&
-                            likeArray.likes.find((v) => v === user.id)
-                                ? dispatch(addUnLikes(addLike))
-                                : dispatch(addLikes(addLike));
-                        });
-                } catch (err) {
-                    console.log(err);
-                }
-            };
-            if (id) {
-                getLikes();
-            }
-        },
-        [dispatch]
-    );
+    const { onLike } = useLike();
 
     return (
         <>
-            {hasTwitts ? (
+            {hasTwitts && user ? (
                 <AppLayout>
                     <UserAside />
                     <AppContent>
                         <>
                             <TwittWritingForm
+                                onImageDelete={onImageDelete}
                                 twitt={twitt}
                                 onTwittText={onTwittText}
                                 onTwittSubmit={onTwittSubmit}
@@ -180,7 +121,6 @@ export const Main = () => {
                             />
                             <TwittForm
                                 onLike={onLike}
-                                isLike={isLike}
                                 hasTwitts={hasTwitts}
                                 twitts={twitts}
                                 onDelete={onDelete}

@@ -8,6 +8,8 @@ import { AuthForm } from "../components/AuthForm";
 export const Login = () => {
     const dispatch = useDispatch();
     const isLogin = useSelector((state) => state.auth.isLogin);
+    const signUpError = useSelector((state) => state.signUp.error);
+    const signInError = useSelector((state) => state.auth.error);
     const [userData, setUserData] = useState({ email: "", password: "" });
     const [doSignUp, setDoSignUp] = useState(false);
 
@@ -46,6 +48,8 @@ export const Login = () => {
                 onClick={onClick}
                 doSignUp={doSignUp}
                 onSign={onSign}
+                signUpError={signUpError}
+                signInError={signInError}
                 onSignUpSubmit={onSignUpSubmit}
                 onSignInSubmit={onSignInSubmit}
             />

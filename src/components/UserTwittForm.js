@@ -7,7 +7,6 @@ export const UserTwittForm = ({
     onComment,
     onCommentSubmit,
     onLike,
-    isLike,
     onDelete,
 }) => {
     return (
@@ -18,7 +17,6 @@ export const UserTwittForm = ({
             onComment={onComment}
             onCommentSubmit={onCommentSubmit}
             onLike={onLike}
-            isLike={isLike}
         />
     );
 };

@@ -5,8 +5,8 @@ import { Main } from "./pages/Main";
 import { Login } from "./pages/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "modules/auth";
-import { authService, dbService } from "fbase";
-import { getTwitt } from "modules/get";
+import { authService } from "fbase";
+import { useGetTwitt } from "hook";
 
 function App() {
     const dispatch = useDispatch();
@@ -22,27 +22,7 @@ function App() {
         });
     }, []);
 
-    useEffect(() => {
-        const getTwit = async () => {
-            try {
-                await dbService
-                    .collection("nweets")
-                    .orderBy("createAt", "desc")
-                    .limit(5)
-                    .onSnapshot((snapshot) => {
-                        const array = snapshot.docs.map((doc) => [
-                            { ...doc.data(), id: doc.id },
-                        ]);
-                        dispatch(getTwitt(array));
-                    });
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        if (isLogin) {
-            getTwit();
-        }
-    }, [isLogin]);
+    useGetTwitt(isLogin);
 
     return (
         <div>

@@ -36,6 +36,7 @@ const TwitWritingBlock = styled.form`
     display: flex;
     width: 100%;
     flex-direction: column;
+
     & > textarea {
         all: unset;
         font-size: 14px;
@@ -81,6 +82,7 @@ export const TwittWritingForm = ({
     onInputClick,
     onImage,
     readImg,
+    onImageDelete,
 }) => {
     const user = useSelector((state) => state.auth.user);
     return (
@@ -97,7 +99,14 @@ export const TwittWritingForm = ({
                         type="text"
                         placeholder="트윗 입력"
                     />
-                    {readImg && <img src={readImg} alt="미리보기 사진" />}
+                    {readImg && (
+                        <>
+                            <Button type="button" onClick={onImageDelete}>
+                                X
+                            </Button>
+                            <img src={readImg} alt="미리보기 사진" />
+                        </>
+                    )}
                     <div>
                         <div className="twit__box-submit">
                             <input
