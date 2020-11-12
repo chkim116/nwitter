@@ -3,6 +3,7 @@ import { loginSubmit } from "modules/auth";
 import { signUpSubmit } from "modules/signup";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { SeoMeta } from "SeoMeta";
 import { AuthForm } from "../components/AuthForm";
 
 export const Login = () => {
@@ -41,19 +42,28 @@ export const Login = () => {
         [userData, dispatch]
     );
 
+    const data = {
+        title: "로그인 | Nwitter",
+        description: "Nwitter, 트위터클론",
+        canonical: ``,
+    };
+
     return (
-        <div>
-            <AuthForm
-                isLogin={isLogin}
-                onClick={onClick}
-                doSignUp={doSignUp}
-                onSign={onSign}
-                signUpError={signUpError}
-                signInError={signInError}
-                onSignUpSubmit={onSignUpSubmit}
-                onSignInSubmit={onSignInSubmit}
-            />
-            <Footer />
-        </div>
+        <>
+            <SeoMeta data={data} />
+            <div>
+                <AuthForm
+                    isLogin={isLogin}
+                    onClick={onClick}
+                    doSignUp={doSignUp}
+                    onSign={onSign}
+                    signUpError={signUpError}
+                    signInError={signInError}
+                    onSignUpSubmit={onSignUpSubmit}
+                    onSignInSubmit={onSignInSubmit}
+                />
+                <Footer />
+            </div>
+        </>
     );
 };

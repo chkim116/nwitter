@@ -9,6 +9,7 @@ import { storageService } from "fbase";
 import { v4 as uuidv4 } from "uuid";
 import { useComment, useDelete, useLike } from "hook";
 import { Loader } from "style/loader";
+import { SeoMeta } from "SeoMeta";
 
 export const Main = () => {
     const [twitt, setTwitt] = useState("");
@@ -26,7 +27,6 @@ export const Main = () => {
     const onImage = useCallback((e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
-
         reader.onloadend = (end) => {
             const {
                 currentTarget: { result },
@@ -38,12 +38,9 @@ export const Main = () => {
         }
     }, []);
 
-    const onImageDelete = useCallback(
-        (e) => {
-            setReadImg("");
-        },
-        [readImg]
-    );
+    const onImageDelete = useCallback((e) => {
+        setReadImg("");
+    }, []);
 
     // twitt
 
@@ -51,6 +48,7 @@ export const Main = () => {
         (e) => {
             setTwitt(e.target.value);
         },
+        // eslint-disable-next-line
         [twitt]
     );
 
@@ -88,7 +86,7 @@ export const Main = () => {
             }
             setTwitt("");
         },
-        [twitt, readImg, dispatch]
+        [twitt, readImg, dispatch, user]
     );
 
     // delete
@@ -103,8 +101,16 @@ export const Main = () => {
 
     const { onLike } = useLike();
 
+    const data = {
+        title: "Nwitter",
+        description: "Nwitter, 트위터클론",
+        canonical: ``,
+        type: "article",
+    };
+
     return (
         <>
+            <SeoMeta data={data} />
             {hasTwitts && user ? (
                 <AppLayout>
                     <UserAside />

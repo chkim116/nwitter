@@ -85,7 +85,7 @@ export const useGetTwitt = (isLogin, user = undefined) => {
             }
             getTwit();
         }
-    }, [isLogin]);
+    }, [isLogin, dispatch]);
 };
 
 export const useComment = () => {
@@ -98,6 +98,7 @@ export const useComment = () => {
         (e) => {
             setCommentText(e.target.value);
         },
+        // eslint-disable-next-line
         [commentText]
     );
 
@@ -125,10 +126,13 @@ export const useComment = () => {
 export const useDelete = () => {
     const dispatch = useDispatch();
 
-    const onDelete = useCallback((e) => {
-        const { id } = e.target.dataset;
-        dispatch(delTwitt(id));
-    }, []);
+    const onDelete = useCallback(
+        (e) => {
+            const { id } = e.target.dataset;
+            dispatch(delTwitt(id));
+        },
+        [dispatch]
+    );
 
     return onDelete;
 };
