@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "style/button";
 import color from "style/color";
 import { Input } from "style/input";
-import faker from "faker/locale/ko";
 
 import { AiOutlineLike, AiOutlineEllipsis } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa";
@@ -229,7 +228,6 @@ export const TwittForm = ({
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* 코멘트 누르면 보이게 */}
                                         <TwitCommnet>
                                             {list.comments &&
                                                 list.comments.map(
@@ -246,7 +244,7 @@ export const TwittForm = ({
                                                                         alt="유저"
                                                                     />
                                                                 </div>
-                                                                {list.creator}
+                                                                {cm.creator}
                                                             </TwitUser>
                                                             <div>
                                                                 {cm.comment}

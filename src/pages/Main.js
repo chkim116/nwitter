@@ -8,6 +8,7 @@ import { addTwitt } from "modules/twit";
 import { storageService } from "fbase";
 import { v4 as uuidv4 } from "uuid";
 import { useComment, useDelete, useLike } from "hook";
+import { Loader } from "style/loader";
 
 export const Main = () => {
     const [twitt, setTwitt] = useState("");
@@ -131,7 +132,7 @@ export const Main = () => {
                     </AppContent>
                 </AppLayout>
             ) : (
-                <div>로딩 중</div>
+                <Loader />
             )}
         </>
     );

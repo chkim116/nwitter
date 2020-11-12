@@ -1,17 +1,16 @@
 import { UserAside } from "components/UserAside";
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { ProfileBanner } from "../components/ProfileBanner";
 import { ProfileForm } from "../components/ProfileForm";
 
 import { AppContent, AppLayout } from "style/applayout";
 import { UserTwittForm } from "components/UserTwittForm";
 import { useGetTwitt, useLike, useComment, useDelete } from "hook";
+import { Loader } from "style/loader";
 
 export const Profile = () => {
-    const dispatch = useDispatch();
     const { user, isLogin } = useSelector((state) => state.auth);
-
     const { twitts } = useSelector((state) => state.auth.user);
     const { hasTwitts } = useSelector((state) => state.auth);
 
@@ -20,6 +19,7 @@ export const Profile = () => {
     //  comment
 
     const { onComment, onCommentSubmit } = useComment();
+
     // like
 
     const { onLike } = useLike();
@@ -47,7 +47,7 @@ export const Profile = () => {
                     </AppContent>
                 </AppLayout>
             ) : (
-                <div>로딩</div>
+                <Loader />
             )}
         </>
     );
