@@ -41,7 +41,7 @@ export const useLike = () => {
     return { onLike };
 };
 
-export const useGetTwitt = (isLogin, user = undefined) => {
+export const useGetTwitt = (isLogin, user = null) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -50,7 +50,6 @@ export const useGetTwitt = (isLogin, user = undefined) => {
                 await dbService
                     .collection("nweets")
                     .orderBy("createAt", "desc")
-                    .limit(5)
                     .onSnapshot((snapshot) => {
                         const array = snapshot.docs.map((doc) => [
                             { ...doc.data(), id: doc.id },
@@ -61,13 +60,13 @@ export const useGetTwitt = (isLogin, user = undefined) => {
                 console.log(err);
             }
         };
+
         const getAuthTwit = async () => {
             try {
                 await dbService
                     .collection("nweets")
                     .where("creatorId", "==", user.id)
                     .orderBy("createAt", "desc")
-                    .limit(5)
                     .onSnapshot((snapshot) => {
                         const array = snapshot.docs.map((doc) => [
                             { id: doc.id, ...doc.data() },
@@ -83,6 +82,7 @@ export const useGetTwitt = (isLogin, user = undefined) => {
             if (isLogin && user) {
                 return getAuthTwit();
             }
+
             getTwit();
         }
     }, [isLogin, dispatch]);
@@ -117,7 +117,7 @@ export const useComment = () => {
             dispatch(addComment(comment));
             setCommentText("");
         },
-        [commentText, dispatch]
+        [commentText, user, dispatch]
     );
 
     return { onComment, onCommentSubmit };

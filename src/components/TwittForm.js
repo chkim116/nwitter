@@ -150,6 +150,7 @@ export const TwittForm = ({
     onDelete,
 }) => {
     const user = useSelector((state) => state.auth.user);
+
     return (
         <>
             {hasTwitts && twitts ? (

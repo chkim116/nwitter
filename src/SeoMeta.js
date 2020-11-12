@@ -19,7 +19,7 @@ export const SeoMeta = ({ data }) => {
             {image ? <link rel="image_src" href={image} /> : null}
             {image ? <meta itemprop="image" content={image} /> : null}
 
-            <meta property="og:site_name" content="YOUR WEB SITE" />
+            <meta property="og:site_name" content="Nwitter" />
             <meta property="og:title" content={title} />
             {description ? (
                 <meta property="og:description" content={description} />

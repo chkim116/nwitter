@@ -20,6 +20,7 @@ export const Main = () => {
     // image
     const [readImg, setReadImg] = useState("");
     const imgInput = useRef();
+
     const onInputClick = useCallback((e) => {
         imgInput.current.click();
     }, []);
@@ -86,7 +87,7 @@ export const Main = () => {
             }
             setTwitt("");
         },
-        [twitt, readImg, dispatch, user]
+        [user, readImg, twitt, dispatch]
     );
 
     // delete

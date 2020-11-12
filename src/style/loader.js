@@ -5,11 +5,13 @@ import color from "./color";
 const LoaderContainer = styled.div`
     width: 100%;
     position: absolute;
-    min-height: 100vh;
+    height: 100vh;
+    z-index: 5000;
 `;
 
 const LoaderBar = styled.div`
     position: fixed;
+    z-index: 5000;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

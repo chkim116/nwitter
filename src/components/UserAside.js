@@ -96,26 +96,20 @@ export const UserAside = () => {
     const { id, username } = useSelector((state) => state.auth.user);
     const history = useHistory();
 
-    const onMove = useCallback((e) => {
+    const onMove = useCallback(() => {
         window.scroll({ top: 0, behavior: "smooth" });
     }, []);
 
-    const onLogout = useCallback(
-        (e) => {
-            dispatch(logOut());
-            history.push("/");
-        },
-        [dispatch]
-    );
+    const onLogout = useCallback(() => {
+        dispatch(logOut());
+        history.push("/");
+    }, [dispatch, history]);
 
     const [showAside, setShowAside] = useState(false);
 
-    const onAside = useCallback(
-        (e) => {
-            setShowAside((prev) => !prev);
-        },
-        [showAside]
-    );
+    const onAside = useCallback(() => {
+        setShowAside((prev) => !prev);
+    }, []);
 
     return (
         <UserBlock>
