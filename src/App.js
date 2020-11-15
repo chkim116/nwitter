@@ -20,7 +20,7 @@ function App() {
                 return;
             }
         });
-    }, []);
+    }, [dispatch]);
 
     useGetTwitt(isLogin);
 

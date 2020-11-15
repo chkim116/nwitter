@@ -34,6 +34,7 @@ import {
     put,
     takeEvery,
     takeLatest,
+    throttle,
 } from "redux-saga/effects";
 
 const postTwitt = (data) => {
@@ -171,7 +172,7 @@ function* addUnLike(action) {
 }
 
 function* watchTwitt() {
-    yield takeLatest(ADD_TWITT_REQUEST, addTwitt);
+    yield throttle(5000, ADD_TWITT_REQUEST, addTwitt);
 }
 
 function* watchDelTwitt() {

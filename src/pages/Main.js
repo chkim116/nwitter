@@ -44,6 +44,7 @@ export const Main = () => {
     }, []);
 
     // twitt
+    const [addTwitLoading, setAddTwitLoading] = useState(false);
 
     const onTwittText = useCallback(
         (e) => {
@@ -59,7 +60,7 @@ export const Main = () => {
             const fileRef = storageService
                 .ref()
                 .child(`${user.id}/${uuidv4()}`);
-
+            setAddTwitLoading(true);
             if (readImg) {
                 const putImg = await fileRef.putString(readImg, "data_url");
                 const imgUrl = await putImg.ref.getDownloadURL();
@@ -85,6 +86,7 @@ export const Main = () => {
                     })
                 );
             }
+            setAddTwitLoading(false);
             setTwitt("");
         },
         [user, readImg, twitt, dispatch]
@@ -114,6 +116,7 @@ export const Main = () => {
             <SeoMeta data={data} />
             {hasTwitts && user ? (
                 <AppLayout>
+                    {addTwitLoading && <Loader />}
                     <UserAside />
                     <AppContent>
                         <>

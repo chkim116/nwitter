@@ -85,7 +85,7 @@ export const useGetTwitt = (isLogin, user = null) => {
 
             getTwit();
         }
-    }, [isLogin, dispatch]);
+    }, [isLogin, dispatch, user]);
 };
 
 export const useComment = () => {
