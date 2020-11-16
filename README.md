@@ -16,19 +16,19 @@
 ### Sign Up / Sign In
 
 -   회원가입과 로그인
-    <img src="src/assets/gif/로그인.gif">
+    <img src="./src/assets/gif/로그인.gif">
 
 ### Twitt
 
 -   트윗 이미지 업로드
-    <img src="src/assets/gif/twitt.gif">
+    <img src="./src/assets/gif/twitt.gif">
 
 ### Like / Comment
 
 -   좋아요와 댓글 작성
-    <img src="src/assets/gif/likecomment.gif">
+    <img src="./src/assets/gif/likecomment.gif">
 
 ### User Profile
 
 -   유저별 포스트
-    <img src="src/assets/gif/userprofile.gif">
+    <img src="./src/assets/gif/userprofile.gif">
