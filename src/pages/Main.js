@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TwittForm } from "../components/TwittForm";
 import { TwittWritingForm } from "../components/TwittWritingForm";
-import { UserAside } from "../components/UserAside";
+import { UserAside } from "../components/layouts/UserAside";
 import { AppContent, AppLayout } from "style/applayout";
 import { addTwitt } from "modules/twit";
 import { storageService } from "fbase";
@@ -98,11 +98,11 @@ export const Main = () => {
 
     //  comment
 
-    const { onComment, onCommentSubmit } = useComment();
+    const [onComment, onCommentSubmit] = useComment();
 
     // like
 
-    const { onLike } = useLike();
+    const [onLike] = useLike();
 
     const data = {
         title: "Nwitter",

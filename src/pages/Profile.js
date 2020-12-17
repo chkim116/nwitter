@@ -1,4 +1,4 @@
-import { UserAside } from "components/UserAside";
+import { UserAside } from "components/layouts/UserAside";
 import React from "react";
 import { useSelector } from "react-redux";
 import { ProfileBanner } from "../components/ProfileBanner";
@@ -19,11 +19,11 @@ export const Profile = () => {
 
     //  comment
 
-    const { onComment, onCommentSubmit } = useComment();
+    const [onComment, onCommentSubmit] = useComment();
 
     // like
 
-    const { onLike } = useLike();
+    const [onLike] = useLike();
 
     useGetTwitt(isLogin, user);
 

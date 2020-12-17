@@ -38,7 +38,7 @@ export const useLike = () => {
         },
         [user, dispatch]
     );
-    return { onLike };
+    return [onLike];
 };
 
 export const useGetTwitt = (isLogin, user = null) => {
@@ -84,7 +84,7 @@ export const useGetTwitt = (isLogin, user = null) => {
             }
             getTwit();
         }
-    }, [isLogin, dispatch]);
+    }, [isLogin, dispatch, user]);
 };
 
 export const useComment = () => {
@@ -119,7 +119,7 @@ export const useComment = () => {
         [commentText, user, dispatch]
     );
 
-    return { onComment, onCommentSubmit };
+    return [onComment, onCommentSubmit];
 };
 
 export const useDelete = () => {
